@@ -9,20 +9,20 @@ from datetime import datetime
 import fake_useragent
 import random
 import logging
-import concurrent.futures
+import threading
 
 logging.basicConfig(level=logging.INFO)
 
-
+#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
 
 current_date = datetime.now().strftime('%Y_%m_%d')
 table_name = f'news_{current_date}'
-
+MAX_THREADS = 3
 
 
 def web_driver():
     user_agent = fake_useragent.UserAgent().random
-    proxy = 'http://127.0.0.1:1081'
+    proxy = 'socks5://127.0.0.1:1080'
     chrome_options = Options()
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--disable-gpu')
@@ -30,10 +30,27 @@ def web_driver():
     chrome_options.add_argument('--disable-dev-shm-usage')
     chrome_options.add_argument('--enable-unsafe-swiftshader')
     chrome_options.add_argument(f'--proxy-server={proxy}')
+    chrome_options.add_argument('--ignore-certificate-errors')
+    chrome_options.add_argument('--disable-features=IsolateOrigins,site-per-process')
     chrome_options.add_argument(f'--user-agent={user_agent}')
     driver = webdriver.Chrome(options=chrome_options)
     return driver
 
+def set_content_null():
+    # 连接到数据库
+    conn = sqlite3.connect('yahoonews.db')
+    cursor = conn.cursor()
+
+    # 更新 content 长度小于 1 的数据为 NULL
+    cursor.execute(f"""
+    UPDATE {table_name}
+    SET content = NULL
+    WHERE LENGTH(content) < 3
+    """)
+
+    # 提交更改并关闭连接
+    conn.commit()
+    conn.close()
 
 def get_title():
     # 打开页面
@@ -125,7 +142,7 @@ def store_content(url, content):
 
 def fetch_content(url, driver):
     driver.get(url)
-    time.sleep(random.uniform(3, 15))  # Random delay to mimic human browsing
+    time.sleep(random.uniform(3, 5))  # Random delay to mimic human browsing
     elements = driver.find_elements(By.XPATH, "//div[contains(@class, 'body-wrap')]//p")
     content = "\n".join([element.text for element in elements])
     return content
@@ -140,26 +157,63 @@ def process_url(url):
     finally:
         driver.quit()
 
-def main():
+"""def main():
     try:
         # 获取标题，这里是一个阻塞操作，完成后才会继续执行
         get_title_result = get_title()
         
         if get_title_result:
             urls_to_fetch = get_urls_fromDB()
+            threads = []
+            active_threads = 0
             
-            # 限制同时最多运行 3 个线程
-            with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
-                futures = []
-                
-                for url in urls_to_fetch:
-                    # 提交 URL 处理任务给线程池
-                    futures.append(executor.submit(process_url, url))
-                    time.sleep(random.uniform(2, 5))  # 控制间隔时间
-                
-                # 等待所有线程完成
-                for future in concurrent.futures.as_completed(futures):
-                    future.result()  # 获取结果，抛出异常（如果有的话）
+            for url in urls_to_fetch:
+                while active_threads >= MAX_THREADS:
+                    # 等待一个线程完成
+                    for thread in threads:
+                        if not thread.is_alive():
+                            active_threads -= 1
+                            threads.remove(thread)
+                    time.sleep(1)  # 等待并再次检查
+
+                # 启动一个新线程处理 URL
+                thread = threading.Thread(target=process_url, args=(url,))
+                threads.append(thread)
+                thread.start()
+                active_threads += 1
+                time.sleep(random.uniform(2, 5))  # 控制间隔时间
+
+            # 等待所有线程完成
+            for thread in threads:
+                thread.join()
+
+            logging.info("All URLs processed successfully.")
+        else:
+            logging.error("Failed to get the title.")
+    
+    except Exception as e:
+        logging.error(f"Error in main function: {e}")"""
+
+def main():
+    try:
+        # 获取标题，这里是一个阻塞操作，完成后才会继续执行
+        get_title_result = get_title()
+        
+        if get_title_result:
+            set_content_null()
+            urls_to_fetch = get_urls_fromDB()
+            threads = []
+            
+            for url in urls_to_fetch:
+                time.sleep(random.uniform(2, 5))
+                # 为每个 URL 启动一个线程进行处理
+                thread = threading.Thread(target=process_url, args=(url,))
+                threads.append(thread)
+                thread.start()
+
+            # 等待所有线程完成
+            for thread in threads:
+                thread.join()
 
             logging.info("All URLs processed successfully.")
         else:

@@ -22,3 +22,4 @@ for element in elements:
     print(element.text)
 
 driver.quit()
+
