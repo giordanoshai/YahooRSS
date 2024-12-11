@@ -271,9 +271,9 @@ def main():
 
 
 def wait_random_time():
-    random_min = random.randint(10,60)
-    # wait_time = random_min*60
-    time.sleep(random_min)
+    random_min = random.randint(10,15)
+    wait_time = random_min*60
+    time.sleep(wait_time)
 
 #检测
 def execute_task():
