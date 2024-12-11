@@ -120,7 +120,7 @@ def get_title():
             logger.info(f"URL successfully stored: {item['link']}")
         except sqlite3.IntegrityError:
             # 如果 URL 已经存在，跳过该条记录
-            logger.info(f"URL that already exists")
+            pass
     
     # 提交事务并关闭连接
     conn.commit()
