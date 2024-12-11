@@ -286,6 +286,7 @@ def execute_task():
 def start_task():
     # http_thread = threading.Thread(target=http_server)
     # http_thread.start()
+    logger.info('Start to work...')
     while True:
         wait_random_time()
         execute_task()
