@@ -3,6 +3,13 @@ import sqlite3
 from datetime import datetime
 import time
 import threading
+from make_rss import make_rss
+from dailylogger import DailyLogger
+import settting as sts
+
+daily_logger = DailyLogger()
+logger = daily_logger.get_logger()
+
 
 # Add your key and endpoint
 key = "6zpizYwFrlpALBqF0GWL8v8HWZOJDXF7NW40XBL5chQvgIF9PH1VJQQJ99ALACYeBjFXJ3w3AAAbACOGRD01"
@@ -20,11 +27,11 @@ headers = {
     'X-ClientTraceId': str(uuid.uuid4())
 }
 
-current_date = datetime.now().strftime('%Y_%m_%d')
+# current_date = datetime.now().strftime('%Y_%m_%d')
 # table_name = f'news_{current_date}'
-table_name = 'news_2024_12_05'
+# table_name = 'news_2024_12_05'
 
-def get_ids_to_process():
+def get_ids_to_process(table_name):
     conn = sqlite3.connect('yahoonews.db')
     cursor = conn.cursor()
     query = f"""
@@ -36,7 +43,7 @@ def get_ids_to_process():
     # print(ids)
     return ids
 
-def save_translate_result(ids, title_cn, content_cn):
+def save_translate_result(ids, title_cn, content_cn,table_name):
     conn = sqlite3.connect('yahoonews.db')
     cursor = conn.cursor()
     query = f"""
@@ -62,17 +69,17 @@ def azure_translate(title, content):
                 response = request.json()  # 尝试解析 JSON 响应
                 return response
             except ValueError as e:
-                print(f"Error parsing response as JSON: {e}")
+                logger.error(f"Error parsing response as JSON: {e}")
                 return None
         else:
-            print(f"Request failed with status code {request.status_code}")
+            logger.error(f"Request failed with status code {request.status_code}")
             return None
             
     except requests.exceptions.RequestException as e:
-        print(f"Error during request: {e}")
+        logger.error(f"Error during request: {e}")
         return None
 
-def translation_task(ids, title, content):
+def translation_task(ids, title, content,table_name):
     translated_texts = azure_translate(title, content)
     
     if translated_texts:
@@ -82,26 +89,29 @@ def translation_task(ids, title, content):
             content_cn = translated_texts[1]['translations'][0]['text']
             
             # 调用保存函数（假设该函数已经定义）
-            save_translate_result(ids, title_cn, content_cn)
-            print(f"Successfully translated and stored for ID : {ids}")
+            save_translate_result(ids, title_cn, content_cn,table_name)
         except (IndexError, KeyError) as e:
-            print(f"Error processing translated data for ID {ids}: {e}")
+            logger.warning(f"Error processing translated data for ID {ids}: {e}")
     else:
-        print(f"Failed to translate for ID: {ids}")
+        logger.warning(f"Failed to translate for ID: {ids}")
 
-def main():
-    ids_to_process = get_ids_to_process()
+def azure_translate_main(table_name):
+    ids_to_process = get_ids_to_process(table_name)
     threads = []
 
     for id, title, content in ids_to_process:
         time.sleep(5)
-        thread = threading.Thread(target=translation_task, args=(id, title, content))
+        thread = threading.Thread(target=translation_task, args=(id, title, content,table_name))
         threads.append(thread)
         thread.start()
 
     for thread in threads:
         thread.join()
-        
+    logger.info(f'{len(ids_to_process)}条新闻被翻译')
+    #生成rss源
+    make_rss(table_name)
+    sts.is_done = True
+    
 
-if __name__ == "__main__":
-    main()
+
+

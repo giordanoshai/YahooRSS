@@ -8,16 +8,24 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 import fake_useragent
 import random
-import logging
+from concurrent.futures import ThreadPoolExecutor
+from azure_tranlsate import azure_translate_main
+from dailylogger import DailyLogger
+import settting as sts
+import http.server
+import socketserver
 import threading
 
-logging.basicConfig(level=logging.INFO)
 
+
+#github loggin key
 #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
+daily_logger = DailyLogger()
+logger = daily_logger.get_logger()
 
 current_date = datetime.now().strftime('%Y_%m_%d')
 table_name = f'news_{current_date}'
-MAX_THREADS = 3
+MAX_THREADS = 4
 
 
 def web_driver():
@@ -29,7 +37,7 @@ def web_driver():
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
     chrome_options.add_argument('--enable-unsafe-swiftshader')
-    chrome_options.add_argument(f'--proxy-server={proxy}')
+    # chrome_options.add_argument(f'--proxy-server={proxy}')
     chrome_options.add_argument('--ignore-certificate-errors')
     chrome_options.add_argument('--disable-features=IsolateOrigins,site-per-process')
     chrome_options.add_argument(f'--user-agent={user_agent}')
@@ -54,6 +62,7 @@ def set_content_null():
 
 def get_title():
     # 打开页面
+    logger.info('开始获取新闻标题和链接...')
     driver = web_driver()
     driver.get('https://finance.yahoo.com/')
     time.sleep(random.uniform(2, 5))
@@ -95,25 +104,29 @@ def get_title():
         date INTEGER NOT NULL,
         content TEXT,
         title_cn TEXT,
-        content_cn TEXT
+        content_cn TEXT,
+        rss INTEGER DEFAULT 0
     )
     ''')
 
     # 插入新闻数据到当天的表，url 添加唯一约束
+    inserted_count = 0
     for item in news_items:
         try:
             cursor.execute(f'''
             INSERT INTO {table_name} (title, url, date) VALUES (?, ?, ?)
             ''', (item['title'], item['link'], item['date']))
+            inserted_count += 1
+            logger.info(f"URL successfully stored: {item['link']}")
         except sqlite3.IntegrityError:
             # 如果 URL 已经存在，跳过该条记录
-            print(f"Duplicate URL skipped: {item['link']}")
+            logger.info(f"URL that already exists")
     
     # 提交事务并关闭连接
     conn.commit()
     conn.close()
     
-    print(f"News {len(news_items)}items successfully stored in the table {table_name}.")
+    logger.info(f"{inserted_count}items successfully stored in the table {table_name}.")
     return True
 
 
@@ -153,7 +166,7 @@ def process_url(url):
         content = fetch_content(url, driver)
         store_content(url, content)
     except Exception as e:
-        print(f"Error fetching content for {url}: {e}")
+        logger.error(f"Error fetching content for {url}: {e}")
     finally:
         driver.quit()
 
@@ -194,7 +207,7 @@ def process_url(url):
     except Exception as e:
         logging.error(f"Error in main function: {e}")"""
 
-def main():
+"""def main(): #有多少个任务就启动多少个进程
     try:
         # 获取标题，这里是一个阻塞操作，完成后才会继续执行
         get_title_result = get_title()
@@ -220,11 +233,68 @@ def main():
             logging.error("Failed to get the title.")
     
     except Exception as e:
-        logging.error(f"Error in main function: {e}")
+        logging.error(f"Error in main function: {e}")"""
+
+
+def http_server():
+    try:
+        Handler = http.server.SimpleHTTPRequestHandler
+        # 绑定到本地回环接口
+        with socketserver.TCPServer(("192.168.1.38", 52491), Handler) as httpd:
+            logger.info(f"Serving HTTP on port 52491 (http://localhost:52491/)")
+            httpd.serve_forever()
+    except OSError as e:
+        logger.error(f"Failed to start server: {e}")
+    except ConnectionAbortedError as e:
+        logger.error(f"Connection was aborted: {e}")
+    except Exception as e:
+        logger.error(f"An error occurred: {e}")
+
+
+def main():
+    
+    try:
+        get_title_reslut = get_title()
+        if get_title_reslut:
+            urls_to_fetch = get_urls_fromDB()
+            with ThreadPoolExecutor(max_workers=MAX_THREADS) as executor:
+                executor.map(process_url, urls_to_fetch)
+            logger.info('ALL URLS processed successfully.')
+            #翻译表中数据
+            azure_translate_main(table_name)
+        else:
+            logger.error('Failed to get the title.')
+
+    except Exception as e:
+        logger.error(f'Error in main function: {e}')
+
+
+
+def wait_random_time():
+    random_min = random.randint(10,60)
+    # wait_time = random_min*60
+    time.sleep(random_min)
+
+#检测
+def execute_task():
+    if sts.is_done:
+        sts.is_done = False
+        main()
+    else:
+        logger.warning('前序进程未结束，等待中...')
+
+def start_task():
+    http_thread = threading.Thread(target=http_server)
+    http_thread.start()
+    while True:
+        wait_random_time()
+        execute_task()
+        
+
 
 if __name__ == "__main__":
-    main()
+    start_task()
 
-# get_title()
+
 
 

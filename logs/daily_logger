@@ -1,0 +1,211 @@
+2024-12-11 11:41:49,384 - INFO - Serving HTTP on port 52491 (http://localhost:52491/)
+2024-12-11 11:42:45,272 - INFO - Serving HTTP on port 52491 (http://localhost:52491/)
+2024-12-11 11:44:01,077 - INFO - Serving HTTP on port 52491 (http://localhost:52491/)
+2024-12-11 11:44:11,074 - INFO - 开始获取新闻标题和链接...
+2024-12-11 11:48:20,456 - INFO - 0
+2024-12-11 11:48:20,457 - INFO - 1
+2024-12-11 11:48:20,457 - INFO - 2
+2024-12-11 11:48:20,457 - INFO - 3
+2024-12-11 11:48:20,457 - INFO - 4
+2024-12-11 11:48:20,457 - INFO - 5
+2024-12-11 11:48:20,457 - INFO - 6
+2024-12-11 11:48:20,457 - INFO - 7
+2024-12-11 11:48:20,457 - INFO - 8
+2024-12-11 11:48:20,458 - INFO - 9
+2024-12-11 11:48:20,458 - INFO - 10
+2024-12-11 11:48:20,458 - INFO - 11
+2024-12-11 11:48:20,458 - INFO - 12
+2024-12-11 11:48:20,458 - INFO - 13
+2024-12-11 11:48:20,458 - INFO - 14
+2024-12-11 11:48:20,458 - INFO - 15
+2024-12-11 11:48:20,458 - INFO - 16
+2024-12-11 11:48:20,458 - INFO - 17
+2024-12-11 11:48:20,464 - INFO - 18items successfully stored in the table news_2024_12_11.
+2024-12-11 11:52:11,632 - INFO - ALL URLS processed successfully.
+2024-12-11 11:56:12,099 - INFO - Serving HTTP on port 52491 (http://localhost:52491/)
+2024-12-11 11:56:22,095 - INFO - 开始获取新闻标题和链接...
+2024-12-11 11:56:54,032 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/november-cpi-report-marks-latest-test-for-fed-in-fight-against-inflation-205957390.html
+2024-12-11 11:56:54,032 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/us-court-blocks-krogers-25-203358976.html
+2024-12-11 11:56:54,032 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/biden-plans-finally-kill-nippon-203304809.html
+2024-12-11 11:56:54,032 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/live/stock-market-today-dow-sp-500-nasdaq-fall-as-investors-await-key-inflation-data-210307224.html
+2024-12-11 11:56:54,032 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/party-city-mulls-second-bankruptcy-003912343.html
+2024-12-11 11:56:54,032 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/spacex-share-sale-values-company-233951739.html
+2024-12-11 11:56:54,032 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/walgreens-jumps-report-talks-private-175854095.html
+2024-12-11 11:56:54,032 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/google-stock-pops-as-company-unveils-new-quantum-computing-chip-170103666.html
+2024-12-11 11:56:54,032 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/forget-the-dealership-you-can-now-buy-a-hyundai-on-amazon-215433087.html
+2024-12-11 11:56:54,032 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/big-banks-find-many-reasons-to-be-optimistic-about-2025-as-trump-20-nears-211506029.html
+2024-12-11 11:56:54,032 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/tesla-sells-21-900-evs-033040530.html
+2024-12-11 11:56:54,032 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/analysis-rival-lng-supplies-sakhalins-032849476.html
+2024-12-11 11:56:54,033 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/asian-stocks-set-sluggish-start-222947783.html
+2024-12-11 11:56:54,033 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/tiktok-shop-goes-live-spain-094457160.html
+2024-12-11 11:56:54,033 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/china-falling-corn-imports-show-030227694.html
+2024-12-11 11:56:54,033 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/analyst-resets-broadcom-stock-price-023300127.html
+2024-12-11 11:56:54,033 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/stocks-settle-nervous-wait-us-022900330.html
+2024-12-11 11:56:54,033 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/yen-swaps-traders-left-guessing-020417960.html
+2024-12-11 11:56:54,033 - INFO - 0items successfully stored in the table news_2024_12_11.
+2024-12-11 11:56:54,034 - INFO - ALL URLS processed successfully.
+2024-12-11 11:57:44,506 - INFO - 10条新闻被翻译
+2024-12-11 11:57:44,630 - INFO - 0条rss被移除
+2024-12-11 11:57:45,820 - INFO - 18条新闻被条件到RSS
+2024-12-11 11:57:55,821 - INFO - 开始获取新闻标题和链接...
+2024-12-11 11:59:00,140 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/november-cpi-report-marks-latest-test-for-fed-in-fight-against-inflation-205957390.html
+2024-12-11 11:59:00,140 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/us-court-blocks-krogers-25-203358976.html
+2024-12-11 11:59:00,140 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/biden-plans-finally-kill-nippon-203304809.html
+2024-12-11 11:59:00,140 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/live/stock-market-today-dow-sp-500-nasdaq-fall-as-investors-await-key-inflation-data-210307224.html
+2024-12-11 11:59:00,140 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/party-city-mulls-second-bankruptcy-003912343.html
+2024-12-11 11:59:00,140 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/spacex-share-sale-values-company-233951739.html
+2024-12-11 11:59:00,140 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/walgreens-jumps-report-talks-private-175854095.html
+2024-12-11 11:59:00,140 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/google-stock-pops-as-company-unveils-new-quantum-computing-chip-170103666.html
+2024-12-11 11:59:00,140 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/forget-the-dealership-you-can-now-buy-a-hyundai-on-amazon-215433087.html
+2024-12-11 11:59:00,140 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/big-banks-find-many-reasons-to-be-optimistic-about-2025-as-trump-20-nears-211506029.html
+2024-12-11 11:59:00,140 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/tesla-sells-21-900-evs-033040530.html
+2024-12-11 11:59:00,140 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/analysis-rival-lng-supplies-sakhalins-032849476.html
+2024-12-11 11:59:00,140 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/asian-stocks-set-sluggish-start-222947783.html
+2024-12-11 11:59:00,141 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/tiktok-shop-goes-live-spain-094457160.html
+2024-12-11 11:59:00,141 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/china-falling-corn-imports-show-030227694.html
+2024-12-11 11:59:00,141 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/analyst-resets-broadcom-stock-price-023300127.html
+2024-12-11 11:59:00,141 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/stocks-settle-nervous-wait-us-022900330.html
+2024-12-11 11:59:00,141 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/yen-swaps-traders-left-guessing-020417960.html
+2024-12-11 11:59:00,141 - INFO - 0items successfully stored in the table news_2024_12_11.
+2024-12-11 11:59:00,142 - INFO - ALL URLS processed successfully.
+2024-12-11 11:59:00,142 - INFO - 0条新闻被翻译
+2024-12-11 11:59:11,143 - WARNING - 前序进程未结束，等待中...
+2024-12-11 11:59:23,143 - WARNING - 前序进程未结束，等待中...
+2024-12-11 11:59:35,144 - WARNING - 前序进程未结束，等待中...
+2024-12-11 11:59:49,144 - WARNING - 前序进程未结束，等待中...
+2024-12-11 12:00:02,144 - WARNING - 前序进程未结束，等待中...
+2024-12-11 12:00:16,145 - WARNING - 前序进程未结束，等待中...
+2024-12-11 12:00:29,145 - WARNING - 前序进程未结束，等待中...
+2024-12-11 12:00:39,145 - WARNING - 前序进程未结束，等待中...
+2024-12-11 12:00:52,145 - WARNING - 前序进程未结束，等待中...
+2024-12-11 12:01:07,146 - WARNING - 前序进程未结束，等待中...
+2024-12-11 12:01:18,146 - WARNING - 前序进程未结束，等待中...
+2024-12-11 12:01:28,146 - WARNING - 前序进程未结束，等待中...
+2024-12-11 12:01:38,146 - WARNING - 前序进程未结束，等待中...
+2024-12-11 12:01:51,146 - WARNING - 前序进程未结束，等待中...
+2024-12-11 12:02:06,146 - WARNING - 前序进程未结束，等待中...
+2024-12-11 12:02:32,101 - INFO - Serving HTTP on port 52491 (http://localhost:52491/)
+2024-12-11 12:02:43,097 - INFO - 开始获取新闻标题和链接...
+2024-12-11 12:03:12,444 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/november-cpi-report-marks-latest-test-for-fed-in-fight-against-inflation-205957390.html
+2024-12-11 12:03:12,444 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/us-court-blocks-krogers-25-203358976.html
+2024-12-11 12:03:12,444 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/biden-plans-finally-kill-nippon-203304809.html
+2024-12-11 12:03:12,444 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/live/stock-market-today-dow-sp-500-nasdaq-fall-as-investors-await-key-inflation-data-210307224.html
+2024-12-11 12:03:12,444 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/party-city-mulls-second-bankruptcy-003912343.html
+2024-12-11 12:03:12,444 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/spacex-share-sale-values-company-233951739.html
+2024-12-11 12:03:12,444 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/walgreens-jumps-report-talks-private-175854095.html
+2024-12-11 12:03:12,444 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/google-stock-pops-as-company-unveils-new-quantum-computing-chip-170103666.html
+2024-12-11 12:03:12,444 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/forget-the-dealership-you-can-now-buy-a-hyundai-on-amazon-215433087.html
+2024-12-11 12:03:12,444 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/big-banks-find-many-reasons-to-be-optimistic-about-2025-as-trump-20-nears-211506029.html
+2024-12-11 12:03:12,444 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/tesla-sells-21-900-evs-033040530.html
+2024-12-11 12:03:12,444 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/analysis-rival-lng-supplies-sakhalins-032849476.html
+2024-12-11 12:03:12,444 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/asian-stocks-set-sluggish-start-222947783.html
+2024-12-11 12:03:12,444 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/tiktok-shop-goes-live-spain-094457160.html
+2024-12-11 12:03:12,444 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/china-falling-corn-imports-show-030227694.html
+2024-12-11 12:03:12,444 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/analyst-resets-broadcom-stock-price-023300127.html
+2024-12-11 12:03:12,444 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/stocks-settle-nervous-wait-us-022900330.html
+2024-12-11 12:03:12,444 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/yen-swaps-traders-left-guessing-020417960.html
+2024-12-11 12:03:12,445 - INFO - 0items successfully stored in the table news_2024_12_11.
+2024-12-11 12:03:12,445 - INFO - ALL URLS processed successfully.
+2024-12-11 12:03:12,446 - INFO - 0条新闻被翻译
+2024-12-11 12:03:24,447 - WARNING - 前序进程未结束，等待中...
+2024-12-11 12:03:36,447 - WARNING - 前序进程未结束，等待中...
+2024-12-11 12:03:46,448 - WARNING - 前序进程未结束，等待中...
+2024-12-11 12:04:01,449 - WARNING - 前序进程未结束，等待中...
+2024-12-11 12:04:13,449 - WARNING - 前序进程未结束，等待中...
+2024-12-11 12:04:23,450 - WARNING - 前序进程未结束，等待中...
+2024-12-11 12:04:35,450 - WARNING - 前序进程未结束，等待中...
+2024-12-11 12:04:50,451 - WARNING - 前序进程未结束，等待中...
+2024-12-11 12:05:55,405 - INFO - Serving HTTP on port 52491 (http://localhost:52491/)
+2024-12-11 12:06:10,401 - INFO - 开始获取新闻标题和链接...
+2024-12-11 12:07:06,080 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/november-cpi-report-marks-latest-test-for-fed-in-fight-against-inflation-205957390.html
+2024-12-11 12:07:06,080 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/us-court-blocks-krogers-25-203358976.html
+2024-12-11 12:07:06,080 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/biden-plans-finally-kill-nippon-203304809.html
+2024-12-11 12:07:06,080 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/live/stock-market-today-dow-sp-500-nasdaq-fall-as-investors-await-key-inflation-data-210307224.html
+2024-12-11 12:07:06,080 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/party-city-mulls-second-bankruptcy-003912343.html
+2024-12-11 12:07:06,080 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/spacex-share-sale-values-company-233951739.html
+2024-12-11 12:07:06,080 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/walgreens-jumps-report-talks-private-175854095.html
+2024-12-11 12:07:06,080 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/google-stock-pops-as-company-unveils-new-quantum-computing-chip-170103666.html
+2024-12-11 12:07:06,080 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/forget-the-dealership-you-can-now-buy-a-hyundai-on-amazon-215433087.html
+2024-12-11 12:07:06,080 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/big-banks-find-many-reasons-to-be-optimistic-about-2025-as-trump-20-nears-211506029.html
+2024-12-11 12:07:06,080 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/tesla-sells-21-900-evs-033040530.html
+2024-12-11 12:07:06,080 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/analysis-rival-lng-supplies-sakhalins-032849476.html
+2024-12-11 12:07:06,080 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/asian-stocks-set-sluggish-start-222947783.html
+2024-12-11 12:07:06,080 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/tiktok-shop-goes-live-spain-094457160.html
+2024-12-11 12:07:06,080 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/china-falling-corn-imports-show-030227694.html
+2024-12-11 12:07:06,080 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/analyst-resets-broadcom-stock-price-023300127.html
+2024-12-11 12:07:06,080 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/stocks-settle-nervous-wait-us-022900330.html
+2024-12-11 12:07:06,080 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/yen-swaps-traders-left-guessing-020417960.html
+2024-12-11 12:07:06,081 - INFO - 0items successfully stored in the table news_2024_12_11.
+2024-12-11 12:07:06,081 - INFO - ALL URLS processed successfully.
+2024-12-11 12:07:06,082 - INFO - 0条新闻被翻译
+2024-12-11 12:07:16,083 - INFO - 开始获取新闻标题和链接...
+2024-12-11 12:08:49,573 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/november-cpi-report-marks-latest-test-for-fed-in-fight-against-inflation-205957390.html
+2024-12-11 12:08:49,573 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/us-court-blocks-krogers-25-203358976.html
+2024-12-11 12:08:49,573 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/biden-plans-finally-kill-nippon-203304809.html
+2024-12-11 12:08:49,573 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/live/stock-market-today-dow-sp-500-nasdaq-fall-as-investors-await-key-inflation-data-210307224.html
+2024-12-11 12:08:49,573 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/party-city-mulls-second-bankruptcy-003912343.html
+2024-12-11 12:08:49,573 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/spacex-share-sale-values-company-233951739.html
+2024-12-11 12:08:49,573 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/walgreens-jumps-report-talks-private-175854095.html
+2024-12-11 12:08:49,573 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/google-stock-pops-as-company-unveils-new-quantum-computing-chip-170103666.html
+2024-12-11 12:08:49,573 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/forget-the-dealership-you-can-now-buy-a-hyundai-on-amazon-215433087.html
+2024-12-11 12:08:49,573 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/big-banks-find-many-reasons-to-be-optimistic-about-2025-as-trump-20-nears-211506029.html
+2024-12-11 12:08:49,573 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/tesla-sells-21-900-evs-033040530.html
+2024-12-11 12:08:49,573 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/analysis-rival-lng-supplies-sakhalins-032849476.html
+2024-12-11 12:08:49,573 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/asian-stocks-set-sluggish-start-222947783.html
+2024-12-11 12:08:49,583 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/tiktok-shop-goes-live-spain-094457160.html
+2024-12-11 12:08:49,583 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/china-falling-corn-imports-show-030227694.html
+2024-12-11 12:08:49,583 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/analyst-resets-broadcom-stock-price-023300127.html
+2024-12-11 12:08:49,583 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/stocks-settle-nervous-wait-us-022900330.html
+2024-12-11 12:08:49,590 - INFO - 1items successfully stored in the table news_2024_12_11.
+2024-12-11 12:13:48,062 - INFO - Serving HTTP on port 52491 (http://localhost:52491/)
+2024-12-11 12:14:14,062 - INFO - 开始获取新闻标题和链接...
+2024-12-11 12:15:18,702 - INFO - URL that already exists
+2024-12-11 12:15:18,702 - INFO - URL that already exists
+2024-12-11 12:15:18,702 - INFO - URL that already exists
+2024-12-11 12:15:18,702 - INFO - URL that already exists
+2024-12-11 12:15:18,702 - INFO - URL that already exists
+2024-12-11 12:15:18,702 - INFO - URL that already exists
+2024-12-11 12:15:18,702 - INFO - URL that already exists
+2024-12-11 12:15:18,702 - INFO - URL that already exists
+2024-12-11 12:15:18,702 - INFO - URL that already exists
+2024-12-11 12:15:18,702 - INFO - URL that already exists
+2024-12-11 12:15:18,702 - INFO - URL that already exists
+2024-12-11 12:15:18,702 - INFO - URL that already exists
+2024-12-11 12:15:18,702 - INFO - URL that already exists
+2024-12-11 12:15:18,702 - INFO - URL that already exists
+2024-12-11 12:15:18,703 - INFO - URL that already exists
+2024-12-11 12:15:18,703 - INFO - URL that already exists
+2024-12-11 12:15:18,703 - INFO - URL that already exists
+2024-12-11 12:15:18,703 - INFO - URL that already exists
+2024-12-11 12:15:18,703 - INFO - 0items successfully stored in the table news_2024_12_11.
+2024-12-11 12:16:25,788 - INFO - ALL URLS processed successfully.
+2024-12-11 12:16:35,419 - INFO - 1条新闻被翻译
+2024-12-11 12:16:35,559 - INFO - 0条rss被移除
+2024-12-11 12:16:35,652 - INFO - 1条新闻被条件到RSS
+2024-12-11 12:17:09,654 - INFO - 开始获取新闻标题和链接...
+2024-12-11 12:18:18,202 - INFO - Serving HTTP on port 52491 (http://localhost:52491/)
+2024-12-11 12:18:35,202 - INFO - 开始获取新闻标题和链接...
+2024-12-11 12:19:16,066 - INFO - URL that already exists
+2024-12-11 12:19:16,066 - INFO - URL that already exists
+2024-12-11 12:19:16,066 - INFO - URL that already exists
+2024-12-11 12:19:16,066 - INFO - URL that already exists
+2024-12-11 12:19:16,066 - INFO - URL that already exists
+2024-12-11 12:19:16,066 - INFO - URL that already exists
+2024-12-11 12:19:16,066 - INFO - URL that already exists
+2024-12-11 12:19:16,066 - INFO - URL that already exists
+2024-12-11 12:19:16,066 - INFO - URL that already exists
+2024-12-11 12:19:16,066 - INFO - URL that already exists
+2024-12-11 12:19:16,067 - INFO - URL successfully stored: https://finance.yahoo.com/news/explainer-likely-bank-japan-rate-041537934.html
+2024-12-11 12:19:16,067 - INFO - URL that already exists
+2024-12-11 12:19:16,067 - INFO - URL that already exists
+2024-12-11 12:19:16,067 - INFO - URL that already exists
+2024-12-11 12:19:16,067 - INFO - URL that already exists
+2024-12-11 12:19:16,067 - INFO - URL that already exists
+2024-12-11 12:19:16,067 - INFO - URL that already exists
+2024-12-11 12:19:16,067 - INFO - URL that already exists
+2024-12-11 12:19:16,074 - INFO - 1items successfully stored in the table news_2024_12_11.
+2024-12-11 12:20:44,779 - INFO - ALL URLS processed successfully.
+2024-12-11 12:20:54,313 - INFO - 1条新闻被翻译
+2024-12-11 12:20:54,450 - INFO - 0条rss被移除
+2024-12-11 12:20:54,557 - INFO - 1条新闻被条件到RSS
+2024-12-11 12:21:28,557 - INFO - 开始获取新闻标题和链接...

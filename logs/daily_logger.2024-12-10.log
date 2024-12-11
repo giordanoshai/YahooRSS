@@ -1,0 +1,77 @@
+2024-12-10 22:31:19,519 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/the-feds-final-5-pound-issue-with-inflation-points-to-gradual-rate-cuts-morning-brief-110005302.html
+2024-12-10 22:31:19,519 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/live/stock-market-today-dow-sp-500-nasdaq-futures-hit-pause-in-countdown-to-consumer-inflation-data-121338558.html
+2024-12-10 22:31:19,519 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/ftcs-lina-khan-isnt-letting-up-on-big-tech-even-with-her-future-in-doubt-090041416.html
+2024-12-10 22:31:19,519 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/tsmc-posts-34-sales-growth-055123686.html
+2024-12-10 22:31:19,529 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/trump-pick-sec-chair-blamed-130000504.html
+2024-12-10 22:31:19,529 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/us-small-business-optimism-soars-110000827.html
+2024-12-10 22:31:19,529 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/macy-deep-trouble-could-sitting-120042948.html
+2024-12-10 22:31:19,529 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/amazon-tests-15-minute-delivery-123003459.html
+2024-12-10 22:31:19,529 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/federal-cut-rates-25-bps-135054884.html
+2024-12-10 22:31:19,529 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/pound-hits-highest-versus-euro-110027236.html
+2024-12-10 22:31:19,536 - ERROR - Error in main function: object of type 'int' has no len()
+2024-12-10 22:32:36,095 - INFO - 开始获取新闻标题和链接...
+2024-12-10 22:33:29,733 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/the-feds-final-5-pound-issue-with-inflation-points-to-gradual-rate-cuts-morning-brief-110005302.html
+2024-12-10 22:33:29,733 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/live/stock-market-today-dow-sp-500-nasdaq-futures-hit-pause-in-countdown-to-consumer-inflation-data-121338558.html
+2024-12-10 22:33:29,733 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/ftcs-lina-khan-isnt-letting-up-on-big-tech-even-with-her-future-in-doubt-090041416.html
+2024-12-10 22:33:29,733 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/tsmc-posts-34-sales-growth-055123686.html
+2024-12-10 22:33:29,733 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/google-unveils-willow-quantum-computing-104343852.html
+2024-12-10 22:33:29,733 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/oracle-slides-misses-wall-street-105148894.html
+2024-12-10 22:33:29,733 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/trump-pick-sec-chair-blamed-130000504.html
+2024-12-10 22:33:29,733 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/us-small-business-optimism-soars-110000827.html
+2024-12-10 22:33:29,733 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/macy-deep-trouble-could-sitting-120042948.html
+2024-12-10 22:33:29,733 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/amazon-tests-15-minute-delivery-123003459.html
+2024-12-10 22:33:29,733 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/citigroup-expects-25-30-rise-142415962.html
+2024-12-10 22:33:29,733 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/morgan-stanley-smith-barney-pay-141751779.html
+2024-12-10 22:33:29,733 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/google-invests-intersect-power-over-140946469.html
+2024-12-10 22:33:29,733 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/marathon-digital-shifts-strategy-1-140200649.html
+2024-12-10 22:33:29,734 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/wall-street-wealth-chiefs-see-135550296.html
+2024-12-10 22:33:29,734 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/mars-seeks-least-1-billion-122641760.html
+2024-12-10 22:33:29,734 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/federal-cut-rates-25-bps-135054884.html
+2024-12-10 22:33:29,734 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/pound-hits-highest-versus-euro-110027236.html
+2024-12-10 22:33:29,734 - INFO - News 0items successfully stored in the table news_2024_12_10.
+2024-12-10 22:35:24,338 - INFO - ALL URLS processed successfully.
+2024-12-10 22:35:30,402 - INFO - Successfully translated and stored for ID : 25
+2024-12-10 22:35:34,884 - INFO - Successfully translated and stored for ID : 26
+2024-12-10 22:35:39,668 - INFO - Successfully translated and stored for ID : 27
+2024-12-10 22:35:45,260 - INFO - Successfully translated and stored for ID : 28
+2024-12-10 22:35:50,361 - INFO - Successfully translated and stored for ID : 29
+2024-12-10 22:35:54,749 - INFO - Successfully translated and stored for ID : 30
+2024-12-10 22:35:59,902 - INFO - Successfully translated and stored for ID : 31
+2024-12-10 22:36:04,926 - INFO - Successfully translated and stored for ID : 32
+2024-12-10 22:36:04,926 - INFO - 8条新闻被翻译
+2024-12-10 22:36:29,073 - INFO - 0条rss被移除
+2024-12-10 22:36:29,160 - INFO - 8条新闻被条件到RSS
+2024-12-10 23:01:01,025 - INFO - 开始获取新闻标题和链接...
+2024-12-10 23:07:50,425 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/the-feds-final-5-pound-issue-with-inflation-points-to-gradual-rate-cuts-morning-brief-110005302.html
+2024-12-10 23:07:50,426 - INFO - 0
+2024-12-10 23:07:50,426 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/ftcs-lina-khan-isnt-letting-up-on-big-tech-even-with-her-future-in-doubt-090041416.html
+2024-12-10 23:07:50,426 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/many-student-loan-borrowers-are-in-for-a-big-bad-surprise-in-2025-110025859.html
+2024-12-10 23:07:50,426 - INFO - 1
+2024-12-10 23:07:50,426 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/tsmc-posts-34-sales-growth-055123686.html
+2024-12-10 23:07:50,426 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/oracle-slides-misses-wall-street-105148894.html
+2024-12-10 23:07:50,426 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/trump-pick-sec-chair-blamed-130000504.html
+2024-12-10 23:07:50,426 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/google-unveils-willow-quantum-computing-104343852.html
+2024-12-10 23:07:50,426 - INFO - Duplicate URL skipped: https://finance.yahoo.com/news/us-small-business-optimism-soars-110000827.html
+2024-12-10 23:07:50,426 - INFO - 2
+2024-12-10 23:07:50,426 - INFO - 3
+2024-12-10 23:07:50,426 - INFO - 4
+2024-12-10 23:07:50,426 - INFO - 5
+2024-12-10 23:07:50,426 - INFO - 6
+2024-12-10 23:07:50,426 - INFO - 7
+2024-12-10 23:07:50,426 - INFO - 8
+2024-12-10 23:07:50,426 - INFO - 9
+2024-12-10 23:07:50,433 - INFO - 10items successfully stored in the table news_2024_12_10.
+2024-12-10 23:14:03,830 - INFO - ALL URLS processed successfully.
+2024-12-10 23:14:09,743 - INFO - Successfully translated and stored for ID : 33
+2024-12-10 23:14:14,861 - INFO - Successfully translated and stored for ID : 34
+2024-12-10 23:14:19,877 - INFO - Successfully translated and stored for ID : 35
+2024-12-10 23:14:25,263 - INFO - Successfully translated and stored for ID : 36
+2024-12-10 23:14:29,882 - INFO - Successfully translated and stored for ID : 37
+2024-12-10 23:14:34,924 - INFO - Successfully translated and stored for ID : 38
+2024-12-10 23:14:39,952 - INFO - Successfully translated and stored for ID : 39
+2024-12-10 23:14:44,634 - INFO - Successfully translated and stored for ID : 40
+2024-12-10 23:14:50,113 - INFO - Successfully translated and stored for ID : 41
+2024-12-10 23:14:54,195 - INFO - Successfully translated and stored for ID : 42
+2024-12-10 23:14:54,195 - INFO - 10条新闻被翻译
+2024-12-10 23:15:14,309 - INFO - 0条rss被移除
+2024-12-10 23:15:14,500 - INFO - 10条新闻被条件到RSS
