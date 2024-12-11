@@ -284,8 +284,8 @@ def execute_task():
         logger.warning('前序进程未结束，等待中...')
 
 def start_task():
-    http_thread = threading.Thread(target=http_server)
-    http_thread.start()
+    # http_thread = threading.Thread(target=http_server)
+    # http_thread.start()
     while True:
         wait_random_time()
         execute_task()
