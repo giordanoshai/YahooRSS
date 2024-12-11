@@ -27,7 +27,7 @@ def create_new_rss_root():
     title = SubElement(channel, "title")
     title.text = "雅虎财经新闻"
     link = SubElement(channel, "link")
-    link.text = "http://192.168.1.38:8001/rss.xml"
+    link.text = "http://box.ggwp.cn:52491/rss.xml"
     description = SubElement(channel, "description")
     description.text = "Yahoo finance news"
     

@@ -240,7 +240,7 @@ def http_server():
     try:
         Handler = http.server.SimpleHTTPRequestHandler
         # 绑定到本地回环接口
-        with socketserver.TCPServer(("192.168.1.38", 52491), Handler) as httpd:
+        with socketserver.TCPServer(("192.168.100.39", 52491), Handler) as httpd:
             logger.info(f"Serving HTTP on port 52491 (http://localhost:52491/)")
             httpd.serve_forever()
     except OSError as e:
