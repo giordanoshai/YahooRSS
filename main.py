@@ -23,10 +23,16 @@ import threading
 daily_logger = DailyLogger()
 logger = daily_logger.get_logger()
 
-current_date = datetime.now().strftime('%Y_%m_%d')
-table_name = f'news_{current_date}'
-MAX_THREADS = 4
+table_name = None
 
+# def get_table_name():
+#     global table_name
+#     current_date = datetime.now().strftime('%Y_%m_%d')
+#     table_name = f'news_{current_date}'
+#     return table_name
+
+
+MAX_THREADS = 4
 
 def web_driver():
     user_agent = fake_useragent.UserAgent().random
@@ -62,6 +68,10 @@ def set_content_null():
 
 def get_title():
     # 打开页面
+    global table_name
+    current_date = datetime.now().strftime('%Y_%m_%d')
+    table_name = f'news_{current_date}'
+
     logger.info('开始获取新闻标题和链接...')
     driver = web_driver()
     driver.get('https://finance.yahoo.com/')
@@ -157,7 +167,7 @@ def fetch_content(url, driver):
     driver.get(url)
     time.sleep(random.uniform(3, 5))  # Random delay to mimic human browsing
     elements = driver.find_elements(By.XPATH, "//div[contains(@class, 'body-wrap')]//p")
-    content = "\n".join([element.text for element in elements])
+    content = "\n\n".join([element.text for element in elements])
     return content
 
 def process_url(url):
@@ -252,7 +262,6 @@ def http_server():
 
 
 def main():
-    
     try:
         get_title_reslut = get_title()
         if get_title_reslut:
@@ -264,9 +273,13 @@ def main():
             azure_translate_main(table_name)
         else:
             logger.error('Failed to get the title.')
+            raise Exception('Failed to get the title.')
 
     except Exception as e:
         logger.error(f'Error in main function: {e}')
+        raise
+    finally:
+        sts.is_done = True
 
 
 
@@ -277,21 +290,34 @@ def wait_random_time():
 
 #检测
 def execute_task():
-    if sts.is_done:
-        sts.is_done = False
-        main()
-    else:
-        logger.warning('前序进程未结束，等待中...')
+    retry_count = 0
+    max_retries = 5
+    while True:
+        if sts.is_done:
+            sts.is_done = False
+            try:
+                main()
+                retry_count = 0
+                break #main函数成功执行就退出循环
+            except Exception as e:
+                logger.error(f"Main task failed, retrying: {e}")
+                retry_count += 1
+                if retry_count >= max_retries:
+                    logger.error("Max retriese reached ,task failed.")
+                    break #超过最大重试次数就退出循环
+                time.sleep(60)
+            finally:
+                sts.is_done = True
+        else:
+            logger.warning('前序进程未结束，等待中...')
+            time.sleep(10)
 
 def start_task():
-    # http_thread = threading.Thread(target=http_server)
-    # http_thread.start()
     logger.info('Start to work...')
     while True:
         wait_random_time()
         execute_task()
         
-
 
 if __name__ == "__main__":
     start_task()

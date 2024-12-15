@@ -7,7 +7,7 @@ from pytz import timezone
 from dateutil import parser
 from dateutil.tz import gettz
 from dailylogger import DailyLogger
-import settting as sts
+import re
 
 
 
@@ -48,7 +48,7 @@ def update_rss_status(ids,table_name):
     """更新数据库中条目的rss状态为1"""
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
-    cursor.executemany(f"UPDATE {table_name} SET rss = 1 WHERE id = ?", [(id,) for id in ids])
+    cursor.executemany(f"UPDATE {table_name} SET rss = 1 WHERE id = ? AND title_cn IS NOT NULL", [(id,) for id in ids])
     conn.commit()
     conn.close()
 
@@ -81,7 +81,15 @@ def clear_rss(channel):
     for item in items_to_remove:
         channel.remove(item)
     logger.info(f'{len(items_to_remove)}条rss被移除')
-    
+
+
+def format_content(content):
+    # 使用正则表达式按句号、感叹号和问号分割文本
+    sentences = re.split(r'(?<=[。！？])', content)
+    # 去除空白并格式化为 HTML 段落
+    html_paragraphs = [f"<p>{sentence.strip()}</p>" for sentence in sentences if sentence.strip()]
+    # 将所有段落合并为一个字符串
+    return ''.join(html_paragraphs)
 
 def convert_to_new_york_time(timestamp):
     """将UTC时间戳转换为美国纽约时间（Eastern Time，自动处理EST和EDT）"""
@@ -128,7 +136,7 @@ def add_to_rss(rows,rss_path):
         item_title = SubElement(item, "title")
         item_title.text = title
         item_description = SubElement(item, "description")
-        item_description.text = content
+        item_description.text = format_content(content)
         item_link = SubElement(item, "link")
         item_link.text = url  # URL
         item_guid = SubElement(item, "guid")

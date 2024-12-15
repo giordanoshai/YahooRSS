@@ -1,3 +1,10 @@
 rss.xml
 yahoonews.db
+__pycache__/azure_tranlsate.cpython-310.pyc
+__pycache__/dailylogger.cpython-310.pyc
+__pycache__/make_rss.cpython-310.pyc
+__pycache__/settting.cpython-310.pyc
+.gitignore
+logs/daily_logger
+logs/daily_logger.2024-12-11.log
 logs/
