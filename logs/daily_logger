@@ -101,3 +101,116 @@
 2024-12-12 11:58:24,841 - INFO - 0条rss被移除
 2024-12-12 11:58:25,295 - INFO - 18条新闻被条件到RSS
 2024-12-12 12:54:15,902 - INFO - Start to work...
+2024-12-19 19:01:00,648 - INFO - 开始获取新闻标题和链接...
+2024-12-19 19:01:00,655 - ERROR - Error in main function: name 'proxy' is not defined
+2024-12-19 19:01:08,305 - INFO - 开始获取新闻标题和链接...
+2024-12-19 19:02:44,857 - INFO - URL successfully stored: https://finance.yahoo.com/news/fed-cuts-rates-by-quarter-point-scales-back-cuts-for-2025-125715874.html
+2024-12-19 19:02:44,857 - INFO - URL successfully stored: https://finance.yahoo.com/personal-finance/banking/article/fed-rate-cut-how-it-affects-your-bank-accounts-loans-credit-cards-and-investments-220526007.html
+2024-12-19 19:02:44,857 - INFO - URL successfully stored: https://finance.yahoo.com/news/nike-to-report-earnings-as-investors-look-for-turnaround-under-new-ceo-elliott-hill-140010909.html
+2024-12-19 19:02:44,857 - INFO - URL successfully stored: https://finance.yahoo.com/news/us-finalizes-458-million-award-100207035.html
+2024-12-19 19:02:44,857 - INFO - URL successfully stored: https://finance.yahoo.com/news/amazon-workers-strike-multiple-us-011938724.html
+2024-12-19 19:02:44,857 - INFO - URL successfully stored: https://finance.yahoo.com/news/apple-talks-tencent-bytedance-roll-043938327.html
+2024-12-19 19:02:44,857 - INFO - URL successfully stored: https://finance.yahoo.com/news/taiwans-china-airlines-orders-11-090703696.html
+2024-12-19 19:02:44,857 - INFO - URL successfully stored: https://finance.yahoo.com/news/analysis-behind-potential-honda-nissan-091211347.html
+2024-12-19 19:02:44,858 - INFO - URL successfully stored: https://finance.yahoo.com/news/dealmakers-eye-4-trillion-plus-100502939.html
+2024-12-19 19:02:44,858 - INFO - URL successfully stored: https://finance.yahoo.com/news/micron-drops-sluggish-pc-phone-213505494.html
+2024-12-19 19:02:44,858 - INFO - URL successfully stored: https://finance.yahoo.com/news/bank-england-set-keep-uk-104010703.html
+2024-12-19 19:02:44,858 - INFO - URL successfully stored: https://finance.yahoo.com/news/boj-stands-pat-ueda-bides-030435924.html
+2024-12-19 19:02:44,858 - INFO - URL successfully stored: https://finance.yahoo.com/news/330-jobs-hit-novartis-closes-102052730.html
+2024-12-19 19:02:44,858 - INFO - URL successfully stored: https://finance.yahoo.com/news/hong-kong-seeks-ease-ipo-101839703.html
+2024-12-19 19:02:44,858 - INFO - URL successfully stored: https://finance.yahoo.com/news/riksbank-cuts-rate-quarter-point-084924561.html
+2024-12-19 19:02:44,858 - INFO - URL successfully stored: https://finance.yahoo.com/news/futures-steady-wall-street-swoons-100836869.html
+2024-12-19 19:02:44,858 - INFO - URL successfully stored: https://finance.yahoo.com/news/santander-60-billion-asset-shifts-100046953.html
+2024-12-19 19:02:44,858 - INFO - URL successfully stored: https://finance.yahoo.com/news/lula-powerless-aides-let-currency-100000175.html
+2024-12-19 19:02:44,865 - INFO - 18items successfully stored in the table news_2024_12_19.
+2024-12-19 19:06:49,774 - INFO - ALL URLS processed successfully.
+2024-12-19 19:06:55,645 - ERROR - Request failed with status code 401
+2024-12-19 19:06:55,655 - WARNING - Failed to translate for ID: 1
+2024-12-19 19:07:00,697 - ERROR - Request failed with status code 401
+2024-12-19 19:07:00,697 - WARNING - Failed to translate for ID: 2
+2024-12-19 19:07:05,102 - ERROR - Request failed with status code 401
+2024-12-19 19:07:05,102 - WARNING - Failed to translate for ID: 3
+2024-12-19 19:07:10,112 - ERROR - Request failed with status code 401
+2024-12-19 19:07:10,112 - WARNING - Failed to translate for ID: 4
+2024-12-19 19:07:15,111 - ERROR - Request failed with status code 401
+2024-12-19 19:07:15,111 - WARNING - Failed to translate for ID: 5
+2024-12-19 19:07:20,106 - ERROR - Request failed with status code 401
+2024-12-19 19:07:20,106 - WARNING - Failed to translate for ID: 6
+2024-12-19 19:07:25,090 - ERROR - Request failed with status code 401
+2024-12-19 19:07:25,090 - WARNING - Failed to translate for ID: 7
+2024-12-19 19:07:29,926 - ERROR - Request failed with status code 401
+2024-12-19 19:07:29,926 - WARNING - Failed to translate for ID: 8
+2024-12-19 19:07:35,113 - ERROR - Request failed with status code 401
+2024-12-19 19:07:35,113 - WARNING - Failed to translate for ID: 9
+2024-12-19 19:07:39,936 - ERROR - Request failed with status code 401
+2024-12-19 19:07:39,937 - WARNING - Failed to translate for ID: 10
+2024-12-19 19:07:45,116 - ERROR - Request failed with status code 401
+2024-12-19 19:07:45,116 - WARNING - Failed to translate for ID: 11
+2024-12-19 19:07:50,640 - ERROR - Request failed with status code 401
+2024-12-19 19:07:50,641 - WARNING - Failed to translate for ID: 12
+2024-12-19 19:07:54,936 - ERROR - Request failed with status code 401
+2024-12-19 19:07:54,936 - WARNING - Failed to translate for ID: 13
+2024-12-19 19:07:59,985 - ERROR - Request failed with status code 401
+2024-12-19 19:07:59,985 - WARNING - Failed to translate for ID: 14
+2024-12-19 19:08:04,957 - ERROR - Request failed with status code 401
+2024-12-19 19:08:04,957 - WARNING - Failed to translate for ID: 15
+2024-12-19 19:08:09,954 - ERROR - Request failed with status code 401
+2024-12-19 19:08:09,954 - WARNING - Failed to translate for ID: 16
+2024-12-19 19:08:14,948 - ERROR - Request failed with status code 401
+2024-12-19 19:08:14,948 - WARNING - Failed to translate for ID: 17
+2024-12-19 19:08:19,935 - ERROR - Request failed with status code 401
+2024-12-19 19:08:19,935 - WARNING - Failed to translate for ID: 18
+2024-12-19 19:08:19,935 - INFO - 18条新闻被翻译
+2024-12-19 19:08:19,979 - INFO - 150条rss被移除
+2024-12-19 19:08:19,980 - ERROR - Error in main function: expected string or bytes-like object
+2024-12-19 19:14:19,137 - INFO - 150条rss被移除
+2024-12-19 19:14:51,196 - INFO - 150条rss被移除
+2024-12-19 19:16:03,366 - INFO - 150条rss被移除
+2024-12-19 19:25:42,233 - INFO - 18条新闻被翻译
+2024-12-19 19:26:00,934 - INFO - 150条rss被移除
+2024-12-19 19:26:02,217 - INFO - 18条新闻被条件到RSS
+2024-12-19 19:30:33,313 - INFO - 0条rss被移除
+2024-12-19 19:30:33,392 - INFO - 18条新闻被条件到RSS
+2024-12-19 19:32:32,157 - INFO - 150条rss被移除
+2024-12-19 19:32:32,230 - INFO - 1条新闻被条件到RSS
+2024-12-19 19:35:27,359 - INFO - 0条rss被移除
+2024-12-19 19:35:27,437 - INFO - 1条新闻被条件到RSS
+2024-12-19 19:38:12,051 - INFO - 开始获取新闻标题和链接...
+2024-12-19 19:41:26,725 - INFO - URL successfully stored: https://finance.yahoo.com/news/why-powell-says-inflation-is-still-on-track-morning-brief-110006964.html
+2024-12-19 19:41:26,726 - INFO - URL successfully stored: https://finance.yahoo.com/news/it-was-a-better-year-for-bidenomics-than-for-biden-110011649.html
+2024-12-19 19:41:26,726 - INFO - URL successfully stored: https://finance.yahoo.com/news/robinhoods-surge-towards-profitability-brings-it-back-to-the-top-of-the-financial-world-110048551.html
+2024-12-19 19:41:26,726 - INFO - URL successfully stored: https://finance.yahoo.com/news/apple-reportedly-accuses-meta-seeking-094212418.html
+2024-12-19 19:41:26,726 - INFO - URL successfully stored: https://finance.yahoo.com/news/micron-slumps-bleak-quarterly-forecast-112219540.html
+2024-12-19 19:41:26,726 - INFO - URL successfully stored: https://finance.yahoo.com/news/amazon-workers-strike-us-ahead-111031104.html
+2024-12-19 19:41:26,726 - INFO - URL successfully stored: https://finance.yahoo.com/news/ais-energy-hunger-fuels-geothermal-110623710.html
+2024-12-19 19:41:26,726 - INFO - URL successfully stored: https://finance.yahoo.com/news/seeing-low-income-consumers-squeezed-110144541.html
+2024-12-19 19:41:26,726 - INFO - URL successfully stored: https://finance.yahoo.com/news/stock-market-today-stocks-bounce-105847411.html
+2024-12-19 19:41:26,726 - INFO - URL successfully stored: https://finance.yahoo.com/news/oil-falls-dollar-surges-fed-233050918.html
+2024-12-19 19:41:26,726 - INFO - URL successfully stored: https://finance.yahoo.com/news/traders-shred-bets-boe-easing-102446170.html
+2024-12-19 19:41:26,732 - INFO - 11items successfully stored in the table news_2024_12_19.
+2024-12-19 19:44:13,070 - ERROR - Error fetching content for https://finance.yahoo.com/news/amazon-workers-strike-us-ahead-111031104.html: HTTPConnectionPool(host='localhost', port=53203): Read timed out. (read timeout=120)
+2024-12-19 19:44:13,333 - ERROR - Error fetching content for https://finance.yahoo.com/news/ais-energy-hunger-fuels-geothermal-110623710.html: HTTPConnectionPool(host='localhost', port=53204): Read timed out. (read timeout=120)
+2024-12-19 19:44:14,772 - ERROR - Error fetching content for https://finance.yahoo.com/news/seeing-low-income-consumers-squeezed-110144541.html: HTTPConnectionPool(host='localhost', port=53233): Read timed out. (read timeout=120)
+2024-12-19 19:46:13,283 - ERROR - Error fetching content for https://finance.yahoo.com/news/oil-falls-dollar-surges-fed-233050918.html: HTTPConnectionPool(host='localhost', port=61509): Read timed out. (read timeout=120)
+2024-12-19 19:46:29,408 - INFO - ALL URLS processed successfully.
+2024-12-19 19:47:05,287 - INFO - 7条新闻被翻译
+2024-12-19 19:47:09,302 - INFO - 150条rss被移除
+2024-12-19 19:47:09,375 - ERROR - Error in main function: expected string or bytes-like object
+2024-12-19 19:48:02,786 - INFO - 0条新闻被翻译
+2024-12-19 19:48:02,805 - INFO - 150条rss被移除
+2024-12-19 19:48:45,930 - INFO - 0条新闻被翻译
+2024-12-19 19:48:45,939 - INFO - 150条rss被移除
+2024-12-19 19:51:32,742 - INFO - 0条新闻被翻译
+2024-12-19 19:51:32,751 - INFO - 150条rss被移除
+2024-12-19 19:51:32,845 - INFO - 7条新闻被条件到RSS
+2024-12-19 19:52:38,443 - INFO - 0条新闻被翻译
+2024-12-19 19:52:41,590 - INFO - 0条新闻被翻译
+2024-12-19 19:52:51,037 - INFO - 0条新闻被翻译
+2024-12-19 19:52:51,038 - INFO - 开始获取新闻标题和链接...
+2024-12-19 19:54:34,976 - INFO - URL successfully stored: https://finance.yahoo.com/news/titanic-builder-harland-wolff-bought-114554630.html
+2024-12-19 19:54:34,976 - INFO - URL successfully stored: https://finance.yahoo.com/news/companies-spent-billions-m-now-050000804.html
+2024-12-19 19:54:34,982 - INFO - 2items successfully stored in the table news_2024_12_19.
+2024-12-19 19:56:14,481 - INFO - ALL URLS processed successfully.
+2024-12-19 19:56:44,856 - INFO - 6条新闻被翻译
+2024-12-19 19:56:44,864 - INFO - 0条rss被移除
+2024-12-19 19:56:44,952 - INFO - 6条新闻被条件到RSS

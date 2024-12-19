@@ -39,7 +39,7 @@ def get_rows(table_name):
     """从数据库中获取未添加到RSS的条目"""
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
-    cursor.execute(f"SELECT id, title_cn, content_cn, url, date FROM {table_name} WHERE rss = 0")
+    cursor.execute(f"SELECT id, title_cn, content_cn, url, date FROM {table_name} WHERE rss = 0 AND title_cn IS NOT NULL AND content_cn IS NOT NULL")
     rows = cursor.fetchall()
     conn.close()
     return rows
@@ -54,13 +54,7 @@ def update_rss_status(ids,table_name):
 
 def clear_rss(channel):
     current_time = time.time()
-    seven_days_ago = current_time - 7 * 24 * 60 * 60  # 7 天前的时间戳
-
-    # 定义时区映射
-    tzinfos = {
-        "EST": gettz("America/New_York"),
-        "EDT": gettz("America/New_York"),
-    }
+    seven_days_ago = current_time - 2 * 24 * 60 * 60  # 2 天前的时间戳
 
     items_to_remove = []
     for item in channel.findall('item'):
@@ -69,8 +63,9 @@ def clear_rss(channel):
             logger.warning("Missing or empty pubDate, skipping item.")
             continue
         try:
-            # 使用 tzinfos 解析包含时区缩写的日期字符串
-            pub_datetime = parser.parse(pub_date_node.text, tzinfos=tzinfos)
+            # 解析 pubDate，假设时间是 UTC 时区
+            pub_datetime = parser.parse(pub_date_node.text)
+            pub_datetime = pub_datetime.replace(tzinfo=None)  # 确保时间为 naive (无时区)
             pub_timestamp = pub_datetime.timestamp()  # 转换为时间戳
             if pub_timestamp < seven_days_ago:
                 items_to_remove.append(item)
@@ -82,25 +77,25 @@ def clear_rss(channel):
         channel.remove(item)
     logger.info(f'{len(items_to_remove)}条rss被移除')
 
+def convert_time(timestamp):
+    utc_time = datetime.utcfromtimestamp(timestamp)
+    utc_time = utc_time.replace(tzinfo=timezone('GMT'))
+    return utc_time.strftime("%a, %d %b %Y %H:%M:%S %Z")
 
 def format_content(content):
+    if not content:  # 检查 content 是否为空或 None
+        return "<p>内容可能没有翻译成功</p>"  # 或者返回一个默认值，如 "<p>No content available</p>"
+    
     # 使用正则表达式按句号、感叹号和问号分割文本
     sentences = re.split(r'(?<=[。！？])', content)
+    
     # 去除空白并格式化为 HTML 段落
     html_paragraphs = [f"<p>{sentence.strip()}</p>" for sentence in sentences if sentence.strip()]
+    
     # 将所有段落合并为一个字符串
     return ''.join(html_paragraphs)
 
-def convert_to_new_york_time(timestamp):
-    """将UTC时间戳转换为美国纽约时间（Eastern Time，自动处理EST和EDT）"""
-    utc_time = datetime.utcfromtimestamp(timestamp)
-    utc_time = utc_time.replace(tzinfo=timezone('UTC'))
-    
-    # 转换为纽约时间
-    new_york_time = utc_time.astimezone(timezone('America/New_York'))
-    
-    # 格式化为所需的字符串格式
-    return new_york_time.strftime("%a, %d %b %Y %H:%M:%S %Z")
+
 
 
 def add_to_rss(rows,rss_path):
@@ -121,7 +116,7 @@ def add_to_rss(rows,rss_path):
          channel = root.find('channel')
          tree = ElementTree(root) 
 
-    #清楚7天前的rss
+    #清楚2天前的rss
     clear_rss(channel)
     
     
@@ -142,7 +137,7 @@ def add_to_rss(rows,rss_path):
         item_guid = SubElement(item, "guid")
         item_guid.text = url  # 使用 URL 作为 guid
         item_pubDate = SubElement(item, "pubDate")
-        item_pubDate.text = convert_to_new_york_time(pub_date_timestamp)# 转换为日期格式
+        item_pubDate.text = convert_time(pub_date_timestamp)# 转换为日期格式
         
         # 添加成功后记录 ID
         added_ids.append(id)
@@ -160,3 +155,4 @@ def make_rss(table_name):
         if added_ids:
             update_rss_status(added_ids,table_name)
             logger.info(f'{len(added_ids)}条新闻被条件到RSS')
+    

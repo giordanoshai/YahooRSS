@@ -4,6 +4,9 @@ import sqlite3
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException, WebDriverException
 from bs4 import BeautifulSoup
 from datetime import datetime
 import fake_useragent
@@ -14,6 +17,7 @@ from dailylogger import DailyLogger
 import settting as sts
 import http.server
 import socketserver
+from contextlib import contextmanager
 import threading
 
 
@@ -25,30 +29,38 @@ logger = daily_logger.get_logger()
 
 table_name = None
 
-# def get_table_name():
-#     global table_name
-#     current_date = datetime.now().strftime('%Y_%m_%d')
-#     table_name = f'news_{current_date}'
-#     return table_name
-
-
 MAX_THREADS = 4
 
+
+
 def web_driver():
-    user_agent = fake_useragent.UserAgent().random
-    proxy = 'socks5://127.0.0.1:1080'
-    chrome_options = Options()
-    chrome_options.add_argument('--headless')
-    chrome_options.add_argument('--disable-gpu')
-    chrome_options.add_argument('--no-sandbox')
-    chrome_options.add_argument('--disable-dev-shm-usage')
-    chrome_options.add_argument('--enable-unsafe-swiftshader')
-    # chrome_options.add_argument(f'--proxy-server={proxy}')
-    chrome_options.add_argument('--ignore-certificate-errors')
-    chrome_options.add_argument('--disable-features=IsolateOrigins,site-per-process')
-    chrome_options.add_argument(f'--user-agent={user_agent}')
-    driver = webdriver.Chrome(options=chrome_options)
-    return driver
+    try:
+        user_agent = fake_useragent.UserAgent().random
+        proxy = 'socks5://127.0.0.1:1080'
+        chrome_options = Options()
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--disable-gpu')
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--disable-dev-shm-usage')
+        chrome_options.add_argument('--enable-unsafe-swiftshader')
+        # chrome_options.add_argument(f'--proxy-server={proxy}')
+        chrome_options.add_argument('--ignore-certificate-errors')
+        chrome_options.add_argument('--disable-features=IsolateOrigins,site-per-process')
+        chrome_options.add_argument(f'--user-agent={user_agent}')
+        driver = webdriver.Chrome(options=chrome_options)
+        return driver
+    except Exception as e:
+        logger.error(f"Error creating WebDriver: {e}")
+        raise
+
+@contextmanager
+def managed_web_driver():
+    driver = web_driver()
+    try:
+        yield driver
+    finally:
+        if driver:
+            driver.quit()
 
 def set_content_null():
     # 连接到数据库
@@ -77,27 +89,33 @@ def get_title():
     driver.get('https://finance.yahoo.com/')
     time.sleep(random.uniform(2, 5))
 
-    # 获取页面的 HTML
-    html = driver.page_source
-    soup = BeautifulSoup(html, 'html.parser')
+    with managed_web_driver() as driver:
+        try:
+            # 等待网页元素加载
+            WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, "[class*='hero-3-col']")))
 
-    # 使用正则表达式查找包含 'hero' 和 'lead' 的类名
-    hero_divs = soup.find_all('div', class_=re.compile('.*(hero-lead|hero-second-col|hero-latest-news).*'))
+            # 获取页面 HTML 并解析
+            html = driver.page_source
+            soup = BeautifulSoup(html, 'html.parser')
 
-    # 提取新闻标题和链接
-    news_items = []
-    for div in hero_divs:
-        links = div.find_all('a')
-        for link in links:
-            title = link.get_text().strip()  # 获取新闻标题
-            href = link.get('href')  # 获取链接
+            # 查找包含 'hero' 和 'lead' 的类名
+            hero_divs = soup.find_all('div', class_=re.compile('.*(hero-lead|hero-second-col|hero-latest-news).*'))
 
-            if href and (href.startswith('http') or href.startswith('https')) and title != '':  # 只保留完整链接
-                # 添加到新闻列表
-                news_items.append({'title': title, 'link': href, 'date': int(time.time())})  # 当前时间戳
+            # 提取新闻标题和链接
+            news_items = []
+            for div in hero_divs:
+                links = div.find_all('a')
+                for link in links:
+                    title = link.get_text().strip()
+                    href = link.get('href')
+                    if href and (href.startswith('http') or href.startswith('https')) and title != '':
+                        news_items.append({'title': title, 'link': href, 'date': int(time.time())})
+            
+            return news_items
 
-    # 关闭浏览器
-    driver.quit()
+        except Exception as e:
+            logger.error(f"Error during page load or extraction: {e}")
+            return None
 
 
     # 创建 SQLite 数据库连接
@@ -164,21 +182,38 @@ def store_content(url, content):
     conn.close()
 
 def fetch_content(url, driver):
-    driver.get(url)
-    time.sleep(random.uniform(3, 5))  # Random delay to mimic human browsing
-    elements = driver.find_elements(By.XPATH, "//div[contains(@class, 'body-wrap')]//p")
-    content = "\n\n".join([element.text for element in elements])
-    return content
+    try:
+        driver.get(url)
+        # 等待最多10秒，直到body-wrap类的元素加载完成
+        WebDriverWait(driver, 15).until(
+            EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'body-wrap')]"))
+        )
+        
+        # 获取页面中的段落元素
+        elements = driver.find_elements(By.XPATH, "//div[contains(@class, 'body-wrap')]//p")
+        
+        # 获取文本并合并为一个字符串
+        content = "\n\n".join([element.text for element in elements if element.text.strip()])  # 只处理非空文本
+        return content
+    
+    except TimeoutException as e:
+        logger.error(f"Timeout while fetching content from {url}: {e}")
+    except WebDriverException as e:
+        logger.error(f"WebDriver error while fetching content from {url}: {e}")
+    except Exception as e:
+        logger.error(f"Unexpected error fetching content from {url}: {e}")
+    return None
 
 def process_url(url):
-    driver = web_driver()
     try:
-        content = fetch_content(url, driver)
-        store_content(url, content)
+        with managed_web_driver() as driver:
+            content = fetch_content(url, driver)
+            if content:
+                store_content(url, content)
+            else:
+                logger.warning(f"Content not fetched for {url}")
     except Exception as e:
-        logger.error(f"Error fetching content for {url}: {e}")
-    finally:
-        driver.quit()
+        logger.error(f"Error processing URL {url}: {e}")
 
 """def main():
     try:

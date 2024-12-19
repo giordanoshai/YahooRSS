@@ -1,6 +1,5 @@
-import requests, uuid, json
+import requests, uuid
 import sqlite3
-from datetime import datetime
 import time
 import threading
 from make_rss import make_rss
@@ -12,7 +11,7 @@ logger = daily_logger.get_logger()
 
 
 # Add your key and endpoint
-key = "6zpizYwFrlpALBqF0GWL8v8HWZOJDXF7NW40XBL5chQvgIF9PH1VJQQJ99ALACYeBjFXJ3w3AAAbACOGRD01"
+key = "1GWQDhHEki1leSzVT6j4sN2bhI8hKWkqjvwfSckZltCrlcjMLjWPJQQJ99ALAC4f1cMXJ3w3AAAbACOGLMg0"
 constructed_url = 'https://api.cognitive.microsofttranslator.com/translate'
 params = {
     "api-version": '3.0',
@@ -22,14 +21,10 @@ params = {
 
 headers = {
     'Ocp-Apim-Subscription-Key': key,
-    'Ocp-Apim-Subscription-Region': 'eastus',
+    'Ocp-Apim-Subscription-Region': 'westus',
     'Content-type': 'application/json',
     'X-ClientTraceId': str(uuid.uuid4())
 }
-
-# current_date = datetime.now().strftime('%Y_%m_%d')
-# table_name = f'news_{current_date}'
-# table_name = 'news_2024_12_05'
 
 def get_ids_to_process(table_name):
     conn = sqlite3.connect('yahoonews.db')
@@ -115,3 +110,4 @@ def azure_translate_main(table_name):
 
 
 
+azure_translate_main('news_2024_12_19')
