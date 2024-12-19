@@ -91,7 +91,7 @@ def get_title():
             driver.get(url)
             
             # 等待网页元素加载
-            WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.CSS_SELECTOR, "[class*='hero-3-col']")))
+            WebDriverWait(driver, 60).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[class*='hero-3-col']")))
             logger.info('finance.yahoo.com页面加载完成')
             # 获取页面 HTML 并解析
             html = driver.page_source
