@@ -318,6 +318,7 @@ def main():
 
 def wait_random_time():
     random_min = random.randint(5,10)
+    logger.info('{random_min}分钟后开始抓取标题...')
     wait_time = random_min*60
     time.sleep(wait_time)
 
