@@ -110,4 +110,4 @@ def azure_translate_main(table_name):
 
 
 
-azure_translate_main('news_2024_12_19')
+# azure_translate_main('news_2024_12_19')
