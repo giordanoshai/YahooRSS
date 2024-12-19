@@ -42,14 +42,14 @@ def web_driver():
         chrome_options.add_argument('--headless')
         chrome_options.add_argument('--disable-gpu')
         chrome_options.add_argument('--no-sandbox')
-        chrome_options.add_argument('--disable-dev-shm-usage')
+        chrome_options.add_argument('--window-size=1920,1080')
         chrome_options.add_argument('--enable-unsafe-swiftshader')
         # chrome_options.add_argument(f'--proxy-server={proxy}')
         chrome_options.add_argument('--ignore-certificate-errors')
         chrome_options.add_argument('--disable-features=IsolateOrigins,site-per-process')
-        service = Service('/usr/local/bin/chromedriver')
+        # service = Service('/usr/local/bin/chromedriver')
         chrome_options.add_argument(f'--user-agent={user_agent}')
-        driver = webdriver.Chrome(service=service,options=chrome_options)
+        driver = webdriver.Chrome(executable_path='/usr/local/bin/chromedriver',options=chrome_options)
         return driver
     except Exception as e:
         logger.error(f"Error creating WebDriver: {e}")
