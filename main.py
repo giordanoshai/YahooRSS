@@ -5,6 +5,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, WebDriverException
 from bs4 import BeautifulSoup
@@ -46,8 +47,9 @@ def web_driver():
         # chrome_options.add_argument(f'--proxy-server={proxy}')
         chrome_options.add_argument('--ignore-certificate-errors')
         chrome_options.add_argument('--disable-features=IsolateOrigins,site-per-process')
+        service = Service('/usr/local/bin/chromedriver')
         chrome_options.add_argument(f'--user-agent={user_agent}')
-        driver = webdriver.Chrome(options=chrome_options)
+        driver = webdriver.Chrome(service=service,options=chrome_options)
         return driver
     except Exception as e:
         logger.error(f"Error creating WebDriver: {e}")
@@ -353,8 +355,8 @@ def start_task():
         
 
 if __name__ == "__main__":
-    start_task()
-    # main()
+    # start_task()
+    main()
 
 
 
