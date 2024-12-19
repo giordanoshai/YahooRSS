@@ -318,7 +318,7 @@ def main():
 
 def wait_random_time():
     random_min = random.randint(5,10)
-    logger.info('{random_min}分钟后开始抓取标题...')
+    logger.info(f'{random_min}分钟后开始抓取标题...')
     wait_time = random_min*60
     time.sleep(wait_time)
 
@@ -347,7 +347,6 @@ def execute_task():
             time.sleep(10)
 
 def start_task():
-    logger.info('Start to work...')
     while True:
         wait_random_time()
         execute_task()
