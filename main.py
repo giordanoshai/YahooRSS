@@ -83,17 +83,16 @@ def get_title():
     global table_name
     current_date = datetime.now().strftime('%Y_%m_%d')
     table_name = f'news_{current_date}'
-
+    news_items = None
     logger.info('开始获取新闻标题和链接...')
-    driver = web_driver()
-    driver.get('https://finance.yahoo.com/')
-    time.sleep(random.uniform(2, 5))
-
     with managed_web_driver() as driver:
         try:
+            url = 'https://finance.yahoo.com/'
+            driver.get(url)
+            
             # 等待网页元素加载
-            WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, "[class*='hero-3-col']")))
-
+            WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.CSS_SELECTOR, "[class*='hero-3-col']")))
+            logger.info('finance.yahoo.com页面加载完成')
             # 获取页面 HTML 并解析
             html = driver.page_source
             soup = BeautifulSoup(html, 'html.parser')
@@ -110,13 +109,10 @@ def get_title():
                     href = link.get('href')
                     if href and (href.startswith('http') or href.startswith('https')) and title != '':
                         news_items.append({'title': title, 'link': href, 'date': int(time.time())})
-            
-            return news_items
 
         except Exception as e:
             logger.error(f"Error during page load or extraction: {e}")
-            return None
-
+            
 
     # 创建 SQLite 数据库连接
     db_file = 'yahoonews.db'
@@ -184,8 +180,8 @@ def store_content(url, content):
 def fetch_content(url, driver):
     try:
         driver.get(url)
-        # 等待最多10秒，直到body-wrap类的元素加载完成
-        WebDriverWait(driver, 15).until(
+        # 等待最多60秒，直到body-wrap类的元素加载完成
+        WebDriverWait(driver, 60).until(
             EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'body-wrap')]"))
         )
         
@@ -205,6 +201,7 @@ def fetch_content(url, driver):
     return None
 
 def process_url(url):
+    logger.info('开始抓取文章内容...')
     try:
         with managed_web_driver() as driver:
             content = fetch_content(url, driver)
@@ -303,7 +300,7 @@ def main():
             urls_to_fetch = get_urls_fromDB()
             with ThreadPoolExecutor(max_workers=MAX_THREADS) as executor:
                 executor.map(process_url, urls_to_fetch)
-            logger.info('ALL URLS processed successfully.')
+            logger.info('所有文章内容抓取完成')
             #翻译表中数据
             azure_translate_main(table_name)
         else:
@@ -340,7 +337,7 @@ def execute_task():
                 if retry_count >= max_retries:
                     logger.error("Max retriese reached ,task failed.")
                     break #超过最大重试次数就退出循环
-                time.sleep(60)
+                time.sleep(30)
             finally:
                 sts.is_done = True
         else:
@@ -356,6 +353,7 @@ def start_task():
 
 if __name__ == "__main__":
     start_task()
+    # main()
 
 
 

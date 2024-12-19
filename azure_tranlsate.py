@@ -91,6 +91,7 @@ def translation_task(ids, title, content,table_name):
         logger.warning(f"Failed to translate for ID: {ids}")
 
 def azure_translate_main(table_name):
+    logger.info('开始翻译...')
     ids_to_process = get_ids_to_process(table_name)
     threads = []
 
@@ -110,4 +111,3 @@ def azure_translate_main(table_name):
 
 
 
-# azure_translate_main('news_2024_12_19')
