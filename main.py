@@ -352,8 +352,8 @@ def start_task():
         
 
 if __name__ == "__main__":
-    start_task()
-    # main()
+    # start_task()
+    main()
 
 
 
