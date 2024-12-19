@@ -93,8 +93,8 @@ def get_title():
             driver.get(url)
             
             # 等待网页元素加载
-            WebDriverWait(driver, 60).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[class*='hero-3-col']")))
-            logger.info('finance.yahoo.com页面加载完成')
+            # WebDriverWait(driver, 60).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[class*='hero-3-col']")))
+            # logger.info('finance.yahoo.com页面加载完成')
             # 获取页面 HTML 并解析
             html = driver.page_source
             soup = BeautifulSoup(html, 'html.parser')
@@ -182,10 +182,10 @@ def store_content(url, content):
 def fetch_content(url, driver):
     try:
         driver.get(url)
-        # 等待最多60秒，直到body-wrap类的元素加载完成
-        WebDriverWait(driver, 60).until(
-            EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'body-wrap')]"))
-        )
+        # # 等待最多60秒，直到body-wrap类的元素加载完成
+        # WebDriverWait(driver, 60).until(
+        #     EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'body-wrap')]"))
+        # )
         
         # 获取页面中的段落元素
         elements = driver.find_elements(By.XPATH, "//div[contains(@class, 'body-wrap')]//p")
