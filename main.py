@@ -18,7 +18,7 @@ import settting as sts
 import http.server
 import socketserver
 from contextlib import contextmanager
-import threading
+
 
 
 
@@ -201,7 +201,7 @@ def fetch_content(url, driver):
     return None
 
 def process_url(url):
-    logger.info('开始抓取文章内容...')
+    
     try:
         with managed_web_driver() as driver:
             content = fetch_content(url, driver)
@@ -297,6 +297,7 @@ def main():
     try:
         get_title_reslut = get_title()
         if get_title_reslut:
+            logger.info('开始抓取文章内容...')
             urls_to_fetch = get_urls_fromDB()
             with ThreadPoolExecutor(max_workers=MAX_THREADS) as executor:
                 executor.map(process_url, urls_to_fetch)
@@ -316,7 +317,7 @@ def main():
 
 
 def wait_random_time():
-    random_min = random.randint(10,15)
+    random_min = random.randint(5,10)
     wait_time = random_min*60
     time.sleep(wait_time)
 
@@ -352,8 +353,8 @@ def start_task():
         
 
 if __name__ == "__main__":
-    # start_task()
-    main()
+    start_task()
+    # main()
 
 
 
