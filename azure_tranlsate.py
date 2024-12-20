@@ -11,7 +11,7 @@ logger = daily_logger.get_logger()
 
 
 # Add your key and endpoint
-key = "1GWQDhHEki1leSzVT6j4sN2bhI8hKWkqjvwfSckZltCrlcjMLjWPJQQJ99ALAC4f1cMXJ3w3AAAbACOGLMg0"
+key = "CesAzX2juDSPVg8vQ1eNqfBfib562SKsMj4yhguPW8aCJInOI6poJQQJ99ALAC8vTInXJ3w3AAAbACOGHYF2"
 constructed_url = 'https://api.cognitive.microsofttranslator.com/translate'
 params = {
     "api-version": '3.0',
@@ -21,7 +21,7 @@ params = {
 
 headers = {
     'Ocp-Apim-Subscription-Key': key,
-    'Ocp-Apim-Subscription-Region': 'westus',
+    'Ocp-Apim-Subscription-Region': 'westus2',
     'Content-type': 'application/json',
     'X-ClientTraceId': str(uuid.uuid4())
 }

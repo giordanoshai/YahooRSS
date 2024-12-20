@@ -47,9 +47,9 @@ def web_driver():
         # chrome_options.add_argument(f'--proxy-server={proxy}')
         chrome_options.add_argument('--ignore-certificate-errors')
         chrome_options.add_argument('--disable-features=IsolateOrigins,site-per-process')
-        # service = Service('/usr/local/bin/chromedriver')
+        service = Service('/usr/local/bin/chromedriver')
         chrome_options.add_argument(f'--user-agent={user_agent}')
-        driver = webdriver.Chrome(executable_path='/usr/local/bin/chromedriver',options=chrome_options)
+        driver = webdriver.Chrome(service=service,options=chrome_options)
         return driver
     except Exception as e:
         logger.error(f"Error creating WebDriver: {e}")
@@ -188,9 +188,20 @@ def fetch_content(url, driver):
         # )
         
         # 获取页面中的段落元素
-        elements = driver.find_elements(By.XPATH, "//div[contains(@class, 'body-wrap')]//p")
-        
-        # 获取文本并合并为一个字符串
+        current_url = driver.current_url
+        if current_url.startswith("https://finance.yahoo.com"):
+            WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'body-wrap')]//p")))
+            elements = driver.find_elements(By.XPATH, "//div[contains(@class, 'body-wrap')]//p")
+        elif current_url.startswith("https://www.yahoo.com"):
+            WebDriverWait(driver, 60).until(
+                EC.presence_of_element_located(
+                    (By.XPATH, "//div[contains(@class, 'grid') and contains(@class, 'grid-cols-article-mobile') and contains(@class, 'md:max-w-[750px]') and contains(@class, 'md:grid-cols-article')]//p")
+                )
+            )
+            elements = driver.find_elements(By.XPATH, "//div[contains(@class, 'grid') and contains(@class, 'grid-cols-article-mobile') and contains(@class, 'md:max-w-[750px]') and contains(@class, 'md:grid-cols-article')]//p")
+        else:
+            elements = []
+            
         content = "\n\n".join([element.text for element in elements if element.text.strip()])  # 只处理非空文本
         return content
     
