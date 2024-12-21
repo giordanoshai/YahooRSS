@@ -153,7 +153,7 @@ def get_title():
     conn.commit()
     conn.close()
     
-    logger.info(f"{inserted_count}被获取，并插入到表格 {table_name}.")
+    logger.info(f"获取了{len(news_items)}条新闻,{inserted_count}被插入到表格 {table_name}.")
     return True
 
 
