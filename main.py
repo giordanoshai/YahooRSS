@@ -19,6 +19,7 @@ import settting as sts
 import http.server
 import socketserver
 from contextlib import contextmanager
+import requests
 
 
 
@@ -87,35 +88,33 @@ def get_title():
     table_name = f'news_{current_date}'
     news_items = None
     logger.info('开始获取新闻标题和链接...')
-    with managed_web_driver() as driver:
-        try:
-            url = 'https://finance.yahoo.com/'
-            driver.get(url)
-            
-            # 等待网页元素加载
-            # WebDriverWait(driver, 60).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[class*='hero-3-col']")))
-            # logger.info('finance.yahoo.com页面加载完成')
-            # 获取页面 HTML 并解析
-            html = driver.page_source
-            soup = BeautifulSoup(html, 'html.parser')
+    
+    try:
+        url = 'https://finance.yahoo.com/'
+        ua = fake_useragent.UserAgent()
+        headers = {'User-Agent': ua.random}
 
-            # 查找包含 'hero' 和 'lead' 的类名
-            hero_divs = soup.find_all('div', class_=re.compile('.*(hero-lead|hero-second-col|hero-latest-news).*'))
+        response = requests.get(url, headers=headers)
+        if response.status_code != 200:
+            logger.error(f"请求失败，状态码: {response.status_code}")
+            return None
+        html = response.text
+        soup = BeautifulSoup(html, 'html.parser')
+        # 查找包含 'hero' 和 'lead' 的类名
+        hero_divs = soup.find_all('div', class_=re.compile('.*(hero-lead|hero-second-col|hero-latest-news).*'))
 
-            # 提取新闻标题和链接
-            news_items = []
-            for div in hero_divs:
-                links = div.find_all('a')
-                for link in links:
-                    title = link.get_text().strip()
-                    href = link.get('href')
-                    if href and (href.startswith('http') or href.startswith('https')) and title != '':
-                        news_items.append({'title': title, 'link': href, 'date': int(time.time())})
+        # 提取新闻标题和链接
+        news_items = []
+        for div in hero_divs:
+            links = div.find_all('a')
+            for link in links:
+                title = link.get_text().strip()
+                href = link.get('href')
+                if href and (href.startswith('http') or href.startswith('https')) and title != '':
+                    news_items.append({'title': title, 'link': href, 'date': int(time.time())})
 
-        except Exception as e:
-            screen_path = f"screen_{int(time.time())}.png"
-            driver.save_screenshot(screen_path)
-            logger.error(f"Error during page load or extraction: {e}")
+    except Exception as e:
+        logger.error(f"Error during page load or extraction: {e}")
             
 
     # 创建 SQLite 数据库连接
@@ -154,7 +153,7 @@ def get_title():
     conn.commit()
     conn.close()
     
-    logger.info(f"{inserted_count}items successfully stored in the table {table_name}.")
+    logger.info(f"{inserted_count}被获取，并插入到表格 {table_name}.")
     return True
 
 
