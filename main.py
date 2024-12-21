@@ -113,6 +113,8 @@ def get_title():
                         news_items.append({'title': title, 'link': href, 'date': int(time.time())})
 
         except Exception as e:
+            screen_path = f"screen_{int(time.time())}.png"
+            driver.save_screenshot(screen_path)
             logger.error(f"Error during page load or extraction: {e}")
             
 
