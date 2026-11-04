@@ -1,0 +1,42 @@
+# Databases & large dumps
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+
+# Logs & temp files
+logs/
+*.log
+run_state.json
+test.json
+test.txt
+content.txt
+cn_content.txt
+qwen_output*.txt
+summary.json
+
+# IDE
+.vscode/
+.idea/
+
+# RSS & generated files
+*.xml
+Old/
+json/
+stop.sh
+start.sh
+getdb.sh

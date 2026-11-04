@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TTAi 智能金融新闻与自动化 RSS 系统全链路 3D 架构交互演化图</title>
+  <style>
+    :root {
+      --bg-dark: #070a13;
+      --panel-bg: rgba(13, 20, 36, 0.88);
+      --border-color: rgba(56, 189, 248, 0.25);
+      --primary-cyan: #38bdf8;
+      --neon-emerald: #10b981;
+      --neon-amber: #f59e0b;
+      --neon-rose: #f43f5e;
+      --neon-purple: #a855f7;
+      --neon-gold: #fbbf24;
+      --text-main: #f1f5f9;
+      --text-sub: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+      user-select: none;
+    }
+
+    body {
+      background: var(--bg-dark);
+      color: var(--text-main);
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    #webgl-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    /* UI Header HUD */
+    .hud-header {
+      position: absolute;
+      top: 20px;
+      left: 24px;
+      z-index: 10;
+      pointer-events: auto;
+      background: var(--panel-bg);
+      backdrop-filter: blur(16px);
+      padding: 16px 24px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+      max-width: 520px;
+    }
+
+    .hud-title {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hud-badge {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      -webkit-text-fill-color: #38bdf8;
+      font-weight: 600;
+    }
+
+    .hud-desc {
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--text-sub);
+      line-height: 1.5;
+    }
+
+    /* Metric Counters */
+    .hud-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .metric-card {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      text-align: center;
+    }
+
+    .metric-num {
+      font-size: 16px;
+      font-weight: 700;
+      color: #38bdf8;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .metric-label {
+      font-size: 10px;
+      color: var(--text-sub);
+      margin-top: 2px;
+    }
+
+    /* Bottom Toolbar */
+    .toolbar-dock {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--panel-bg);
+      backdrop-filter: blur(16px);
+      padding: 10px 18px;
+      border-radius: 50px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+    }
+
+    .tool-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-main);
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.25s ease;
+    }
+
+    .tool-btn:hover {
+      background: rgba(56, 189, 248, 0.2);
+      border-color: #38bdf8;
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .tool-btn.active {
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      border-color: #38bdf8;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+    }
+
+    .speed-slider-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-sub);
+      padding: 0 8px;
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .speed-slider {
+      width: 80px;
+      accent-color: #38bdf8;
+      cursor: pointer;
+    }
+
+    /* Step Timeline Navigator */
+    .timeline-bar {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      z-index: 10;
+      background: var(--panel-bg);
+      backdrop-filter: blur(16px);
+      padding: 14px 18px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(56, 189, 248, 0.3) transparent;
+      width: 250px;
+    }
+
+    .timeline-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-sub);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .step-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(56, 189, 248, 0.2);
+    }
+
+    .step-item.active {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: rgba(56, 189, 248, 0.5);
+      font-weight: 600;
+      color: #38bdf8;
+    }
+
+    .step-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      flex-shrink: 0;
+      transition: all 0.3s;
+    }
+
+    .step-item.active .step-dot {
+      background: #38bdf8;
+      box-shadow: 0 0 10px #38bdf8;
+      transform: scale(1.3);
+    }
+
+    /* Detail Modal / Drawer */
+    .detail-drawer {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 480px;
+      height: 100%;
+      background: rgba(10, 15, 28, 0.94);
+      backdrop-filter: blur(24px);
+      border-left: 1px solid var(--border-color);
+      z-index: 100;
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: -15px 0 50px rgba(0, 0, 0, 0.8);
+      overflow-y: auto;
+    }
+
+    .detail-drawer.open {
+      transform: translateX(0);
+    }
+
+    .drawer-close {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-main);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.2s;
+    }
+
+    .drawer-close:hover {
+      background: rgba(244, 63, 94, 0.3);
+      border-color: #f43f5e;
+      color: #fff;
+    }
+
+    .drawer-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 6px;
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #38bdf8;
+      margin-bottom: 8px;
+    }
+
+    .drawer-title {
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .drawer-section {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 16px;
+    }
+
+    .section-heading {
+      font-size: 13px;
+      font-weight: 700;
+      color: #38bdf8;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .section-body {
+      font-size: 13px;
+      line-height: 1.65;
+      color: #cbd5e1;
+    }
+
+    .code-block {
+      background: #040711;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 11.5px;
+      color: #38bdf8;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      margin-top: 8px;
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .pill {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #e2e8f0;
+    }
+
+    /* Tooltip */
+    #hover-tooltip {
+      position: absolute;
+      pointer-events: none;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid #38bdf8;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8);
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      z-index: 20;
+      opacity: 0;
+      transform: translate(-50%, -120%);
+      transition: opacity 0.15s ease;
+      max-width: 260px;
+    }
+  </style>
+  <!-- Three.js + OrbitControls + GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body>
+  <div id="webgl-container"></div>
+
+  <!-- Top-Left HUD Info -->
+  <div class="hud-header">
+    <div class="hud-title">
+      <span>TTAi Trading</span>
+      <span class="hud-badge">V3.5 管道架构</span>
+      <a href="pipeline_flow.html" style="margin-left:auto; text-decoration:none; color:#38bdf8; font-size:11.5px; border:1px solid rgba(56,189,248,0.4); padding:3px 10px; border-radius:20px; background:rgba(56,189,248,0.1); font-weight:600; display:inline-flex; align-items:center; gap:4px; -webkit-text-fill-color: initial;">📊 架构决策流程图 ➔</a>
+    </div>
+    <div class="hud-desc">
+      全自动财经新闻数据流：抓取 ➔ 初筛去重 ➔ 智能打分 ➔ 分流精简 ➔ 摘要翻译 ➔ 自选二次筛选 ➔ RSS 2.0 入池 ➔ 过期清理 ➔ 盘前盘后大盘宏观总结。
+    </div>
+    <div class="hud-metrics">
+      <div class="metric-card">
+        <div class="metric-num" id="metric-throughput">128 条/时</div>
+        <div class="metric-label">处理吞吐量</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-num" id="metric-saved">52.8%</div>
+        <div class="metric-label">Token 成本节约</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-num" id="metric-dedup">38.4%</div>
+        <div class="metric-label">事件去重拦截</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-num" id="metric-rss">100%</div>
+        <div class="metric-label">RFC 2822 合规</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Steps Bar -->
+  <div class="timeline-bar" id="timeline-bar">
+    <div class="timeline-title">
+      <span>全链路工序 (10 节点)</span>
+      <span style="font-size:10px; color:#38bdf8;">点击直达</span>
+    </div>
+    <!-- Injected dynamically -->
+  </div>
+
+  <!-- Bottom Floating Control Dock -->
+  <div class="toolbar-dock">
+    <button class="tool-btn" id="btn-toggle-play">
+      <span id="play-icon">⏸</span> 暂停粒子流
+    </button>
+    <div class="speed-slider-wrap">
+      <span>流速:</span>
+      <input type="range" class="speed-slider" id="speed-slider" min="0.5" max="3" step="0.25" value="1">
+      <span id="speed-val">1.0x</span>
+    </div>
+    <button class="tool-btn" id="btn-prev-step">◀ 上一步</button>
+    <button class="tool-btn" id="btn-next-step">下一步 ▶</button>
+    <button class="tool-btn" id="btn-auto-tour">🎥 自动巡游</button>
+    <button class="tool-btn" id="btn-reset-cam">🔄 重置视角</button>
+  </div>
+
+  <!-- Hover Tooltip -->
+  <div id="hover-tooltip">
+    <strong id="tt-title" style="color:#38bdf8; display:block; margin-bottom:4px;"></strong>
+    <span id="tt-desc" style="color:#cbd5e1; line-height:1.4;"></span>
+  </div>
+
+  <!-- Right Slide Detail Drawer -->
+  <div class="detail-drawer" id="detail-drawer">
+    <button class="drawer-close" id="drawer-close-btn">✕</button>
+    <div>
+      <span class="drawer-tag" id="drawer-step-tag">STEP 01</span>
+      <h2 class="drawer-title" id="drawer-title">工序详情</h2>
+    </div>
+
+    <div class="drawer-section">
+      <div class="section-heading">📌 核心逻辑与业务价值</div>
+      <div class="section-body" id="drawer-logic"></div>
+    </div>
+
+    <div class="drawer-section">
+      <div class="section-heading">⚡ 关键技术与实现算法</div>
+      <div class="section-body" id="drawer-tech"></div>
+      <div class="pill-list" id="drawer-pills"></div>
+    </div>
+
+    <div class="drawer-section">
+      <div class="section-heading">💻 核心实现代码片段</div>
+      <pre class="code-block" id="drawer-code"></pre>
+    </div>
+
+    <div class="drawer-section">
+      <div class="section-heading">📊 输入/输出数据示例</div>
+      <pre class="code-block" id="drawer-data" style="color:#a7f3d0;"></pre>
+    </div>
+  </div>
+
+  <script>
+    // =========================================================================
+    // 10 核心工序完整知识体系与技术定义
+    // =========================================================================
+    const PIPELINE_NODES = [
+      {
+        id: "step-1",
+        stepIndex: 1,
+        title: "抓取",
+        subtitle: "多级降级与反爬抓取",
+        color: 0x38bdf8, // Cyan
+        pos: { x: -36, y: 0, z: -15 },
+        tooltip: "Yahoo Finance 首页与流式抓取，curl_cffi 指纹伪装与多级备用容器",
+        logic: "从 Yahoo Finance latest-news 页面高频采集最新财经新闻，采用多级降级策略应对反爬与页面结构变化。支持 stream-items 动态流、备用 data-testid 选择器与全局文章锚点兜底。通过 curl_cffi Chrome 指纹伪装与指数退避重试彻底避免 403 封锁，正文通过 ThreadPoolExecutor 批量并发由 trafilatura 精准提取。",
+        tech: "curl_cffi (impersonate='chrome') + BeautifulSoup4 多级流式选择器 + trafilatura 智能正文抽取 + ThreadPoolExecutor 4 线程并发 + 媒体黑名单预先剔除（如 Motley Fool, Zacks, Seeking Alpha 商业广告）。",
+        pills: ["curl_cffi", "Chrome Impersonate", "trafilatura", "ThreadPool", "Blacklist Filter"],
+        code: `scraper = YahooFinanceScraper(max_threads=4)\n# 1. 抓取标题与伙伴来源\ntitles = scraper.fetch_titles()\n# 2. 并发提取正文\nresults = scraper.fetch_all_contents(urls)`,
+        sample: `{\n  "title": "Fed Signals Caution on Rate Cuts Amid Sticky Inflation",\n  "url": "https://finance.yahoo.com/news/fed-signals-caution-094122.html",\n  "partner": "Bloomberg",\n  "content": "Federal Reserve officials expressed caution Wednesday..."\n}`
+      },
+      {
+        id: "step-2",
+        stepIndex: 2,
+        title: "初筛与事件去重",
+        subtitle: "17+正则规则与罕见词倒排索引",
+        color: 0xf59e0b, // Amber
+        pos: { x: -24, y: 0, z: -6 },
+        tooltip: "过滤 17+ 种个人理财套路文，基于 StoryIndex 罕见词倒排索引识别同一事件的第 N 篇重复报道",
+        logic: "在入库前执行双重初筛：1. 套路文清洗：通过 17+ 组正则表达式与负向关键词拦截退休理财、房贷、401(k)、无脑荐股等无关垃圾，直接物理丢弃；2. 事件级去重（StoryIndex）：基于过去 24 小时首发新闻建立罕见词倒排索引（词频 DF<=2 为事件特征），共享 >=2 个罕见词即判定为同事件重复报道。重复报道照样入库（带 is_duplicate=True 标记）以实现幂等并供审计，但不抓正文、不调模型、不推 RSS。",
+        tech: "StoryIndex 罕见词逆文档频率索引 (RARE_DF_MAX=2, RARE_HIT_MIN=2) + 停用词/复数归一化 depluralize + 17 组高精度套路文正则表达式 + Cold-start 样本冷启动保护 (MIN_CORPUS_SIZE=30)。",
+        pills: ["StoryIndex", "Inverted Index", "Rare Tokens", "Regex Exclude", "is_duplicate"],
+        code: `index = StoryIndex(origin_news)\ndup_of, reason = index.find_duplicate(title)\nif is_dup:\n    row["is_duplicate"] = True  # 标记入库，后续跳过模型消耗\nelse:\n    index.add(title)            # 仅首发新闻参与特征词频统计`,
+        sample: `{\n  "raw_title": "3 Stocks That Could Turn $1,000 Into $10,000",\n  "action": "DROPPED (Regex: Wealth-trap)",\n  "duplicate_check": "Hugging Face and Nvidia partner on AI -> Matches rare words [hugging, partner] -> DUP_OF: #14802"\n}`
+      },
+      {
+        id: "step-3",
+        stepIndex: 3,
+        title: "评分",
+        subtitle: "LLM 快速评级与情绪关联提取",
+        color: 0xa855f7, // Purple
+        pos: { x: -12, y: 0, z: 2 },
+        tooltip: "基于 deepseek-v4-flash 快速判定重要度 (High/Med/Low)、市场情绪分值与受影响 Tickers",
+        logic: "调度翻译服务拉取待处理新闻，并发调用高性能大模型对新闻进行快速价值评估与市场倾向打分。单次调用同时输出：1. 重要程度 (High/Medium/Low) 与中文理由；2. 市场情绪倾向 (Positive/Negative/Neutral)、数值分 (-1.0~+1.0) 与判定理由；3. 关联标的 (relate_tickers) 智能补全股票标准代码与逻辑。使低优先级新闻也能获得零额外成本的情绪归属。",
+        tech: "LLM JSON Mode 严格结构化输出 + 动态速率限制 (MAX_CONCURRENT=5, 批量=10, 随机 Jitter 睡眠) + 正文缺失自动降级模式 (NO_CONTENT_HINT 仅依赖标题分析，避免幻觉)。",
+        pills: ["deepseek-v4-flash", "Importance (H/M/L)", "Sentiment (-1~1)", "Ticker Extraction", "JSON Mode"],
+        code: `eval_res = evaluate_importance_and_sentiment(title, content)\n# 输出: importance.level, sentiment.score, relate_tickers`,
+        sample: `{\n  "importance": { "level": "High", "reasoning": "美联储主席鹰派表态直接影响全市场流动性预期" },\n  "sentiment": { "label": "Negative", "score": -0.75, "reasoning": "降息预期延后打击高估值科技股" },\n  "relate_tickers": [{ "ticker": "SPY", "reason": "大盘指数流动性承压" }, { "ticker": "QQQ", "reason": "纳指科技龙头受利率敏感" }]\n}`
+      },
+      {
+        id: "step-4",
+        stepIndex: 4,
+        title: "是否总结翻译",
+        subtitle: "分流决策门 (Low 快速旁路)",
+        color: 0x10b981, // Emerald
+        pos: { x: 0, y: 0, z: 8 },
+        tooltip: "Low 级新闻直接跳过二次 LLM 调用，节约 50%+ Token 成本；Medium/High 进入精细化摘要",
+        logic: "核心成本与效率优化分水岭。如果初评为 Low 级别：直接保留原英文标题，拼接精简模板（包含第一步已提取的情绪和个股数据），立即落库更新，彻底跳过第二次耗费巨大 Token 的长文翻译与摘要调用；如果是 Medium 或 High 级别：放行进入深度处理阶段，保证高价值新闻得到高质量的中文化呈现与核心事实提炼。",
+        tech: "条件分流控制阀 + 动态旁路路由 + Token 成本优化架构 (单日降低整体 API 支出超 50%)。",
+        pills: ["Branch Gate", "Cost Reduction", "Token Optimization", "Bypass Route"],
+        code: `if imp_level.lower() == "low":\n    title_cn = title  # 略过二次调用，使用第一步情绪个股组装模板\n    summary_cn = f"1. 【新闻摘要】\\n低重要度新闻，略过详细摘要..."\nelse:\n    # 放行进入深度总结与标题翻译\n    proceed_deep_summary()`,
+        sample: `{\n  "branch": "LOW -> BYPASS TO DB (Token Saved: ~950 tokens)",\n  "branch_high": "HIGH / MEDIUM -> PROCEED TO SUMMARY & TRANSLATION"\n}`
+      },
+      {
+        id: "step-5",
+        stepIndex: 5,
+        title: "深度总结",
+        subtitle: "客观紧凑事实提炼 (<=150字)",
+        color: 0x06b6d4, // Cyan-teal
+        pos: { x: 12, y: 2, z: 12 },
+        tooltip: "基于原文事实提炼 2-3 句中文高密度摘要，严禁任何主观臆测与幻觉",
+        logic: "针对放行的 High/Medium 级别新闻，由大语言模型提取关键事实。严格遵守 2-3 句话以内、不超过 150 字的篇幅要求。严格要求只基于原文事实进行精炼陈述，不进行主观推理或无依据联想，提取新闻核心要点（事件、涉事主体、数据变化、直接影响）。",
+        tech: "Prompt 事实约束工程 + 长度截断与去格式化保护 + 结构化多板块拼接规范。",
+        pills: ["Prompt Engineering", "Hallucination-free", "Concise <=150 chars"],
+        code: `system_prompt = "A concise summary in Chinese (2-3 sentences, 150 chars max), strictly based on original article, no inference."`,
+        sample: `"summary": "美联储多位官员在最新讲话中表示，由于近期核心通胀数据持续高位震荡，当前不急于降息。市场对 6 月降息的概率预期由 65% 下降至 38%，美债收益率全线上行。"`
+      },
+      {
+        id: "step-6",
+        stepIndex: 6,
+        title: "专业标题翻译",
+        subtitle: "财经领域地道中文翻译",
+        color: 0x3b82f6, // Blue
+        pos: { x: 22, y: -2, z: 12 },
+        tooltip: "将英文财经标题翻译为专业中文，与深度总结单次合并调用消减延迟",
+        logic: "将英文标题翻译为符合金融从业人员习惯的地道中文财经标题，准确处理华尔街行话（如 Dovish/Hawkish、Guidance、Beats/Misses 等）。在工程实现中，总结与翻译合并在同一次 API 调用中完成，极大减少了网络往返延迟 (RTT) 和重复的上下文前缀消耗。",
+        tech: "财经术语映射 + 结合上下文消除歧义 + 单次 API 复合 Prompt (Title Translation + Summary + Ticker refine) 合并优化。",
+        pills: ["Financial Terminology", "Compound Prompt", "Single RTT"],
+        code: `messages = [\n  {"role": "system", "content": "1. title_cn: An accurate and professional Chinese translation... 2. summary: Concise summary..."}\n]`,
+        sample: `{\n  "title_en": "Fed's Powell urges patience on interest rate trajectory as price pressures linger",\n  "title_cn": "鲍威尔强调通胀压力依然存在，敦促市场对降息路径保持耐心"\n}`
+      },
+      {
+        id: "step-7",
+        stepIndex: 7,
+        title: "二次筛选 (RSS 模式 B)",
+        subtitle: "自选股动态匹配与分级入池",
+        color: 0xec4899, // Pink
+        pos: { x: 32, y: 0, z: 6 },
+        tooltip: "High 全局推入；Medium 需命中 user_watchlist 才推入；未命中与 Low 标记跳过避免堵塞",
+        logic: "新闻推入 RSS 订阅流前的第二道业务过滤器（实施模式 B 规则）：1. High 级别：属于全市场重磅事件，无条件直接推入 RSS；2. Medium 级别：属于行业或个股级事件，必须检查其关联股票 (related_tickers) 是否与用户自选股池 (user_watchlist) 存在交集，有交集才推入，防止信息泛滥；3. 未命中的 Medium 及 Low：标记为已处理 (is_rss=True)，既不打扰用户，又闭环清空轮询队列。",
+        tech: "SQLite3 user_watchlist query & set intersection + 5 分钟内存自选股缓存 (_watchlist_cache) + 队列闭环机制 (skip_ids 自动打标已处理，防止旧数据卡死扫描窗口)。",
+        pills: ["Mode B Filter", "Watchlist Intersect", "Memory Cache", "Closed-loop skip_ids"],
+        code: `if sig == "high":\n    unrss.append(item)\nelif sig == "medium" and (set(tickers) & watchlist):\n    unrss.append(item)\nelse:\n    skip_ids.append(news_id) # 标记 is_rss=True 避免堵塞`,
+        sample: `{\n  "item_A": "High | TSLA, F | 全局重磅 -> 准入 RSS",\n  "item_B": "Medium | RIVN | Watchlist: [NVDA, TSLA, AAPL] (未命中) -> 标记已处理并跳过",\n  "item_C": "Medium | NVDA | Watchlist: [NVDA, TSLA] (命中!) -> 准入 RSS"\n}`
+      },
+      {
+        id: "step-8",
+        stepIndex: 8,
+        title: "添加到 RSS",
+        subtitle: "RSS 2.0 XML 规范生成与富文本格式化",
+        color: 0x14b8a6, // Teal
+        pos: { x: 42, y: 0, z: -4 },
+        tooltip: "生成标准 RSS 2.0 XML，支持 Markdown 标题/段落/逻辑链转换与 RFC 2822 时间",
+        logic: "读取待推送列表，生成符合行业标准的 RSS 2.0 XML 源。核心细节包括：1. format_content 将内容转换为语义化 HTML（自动解析 Markdown 标题、中文章节括号【】、列表项、以及金融逻辑链 'A → B → C' 为高亮标签）；2. pubDate 严格按照 RFC 2822（通过 email.utils.format_datetime 生成，附带规范的 +0000 偏移，彻底解决各端阅读器时间混乱问题）；3. 成功后批量回写数据库标记 is_rss=True。",
+        tech: "xml.etree.ElementTree + format_content 富文本 HTML 转换引擎 + email.utils RFC 2822 规范时间格式化 + 原子化 XML 写入与异常回退重建。",
+        pills: ["RSS 2.0", "format_content", "RFC 2822", "Logic Chain CSS", "ElementTree"],
+        code: `item = SubElement(channel, "item")\nSubElement(item, "title").text = row["title_cn"]\nSubElement(item, "description").text = format_content(row["summary_cn"])\nSubElement(item, "pubDate").text = format_datetime(dt.astimezone(timezone.utc))`,
+        sample: `<item>\n  <title>鲍威尔强调通胀压力依然存在...</title>\n  <description><p><strong>1. 【新闻摘要】</strong></p><p class='logic-chain'>通胀高企 → 降息延后 → 科技股承压</p></description>\n  <pubDate>Wed, 04 Nov 2026 03:45:00 +0000</pubDate>\n</item>`
+      },
+      {
+        id: "step-9",
+        stepIndex: 9,
+        title: "清理 RSS",
+        subtitle: "保留天数到期修剪与时区修复",
+        color: 0xf43f5e, // Rose
+        pos: { x: 48, y: 0, z: -16 },
+        tooltip: "基于保留天数（默认2天）自动修剪旧条目，防止 XML 无限膨胀并修正历史时区",
+        logic: "在每次生成 RSS 时自动执行 _clear_old_items。按保留天数（默认 2 天，RETENTION_DAYS=2）计算截止时间戳。遍历 XML 中所有 item，严格解析其 pubDate 并在 UTC 时区下计算时间戳（规避本地东八区服务器提前 8 小时误删的 Bug）。超时条目被安全移出 XML 树，同时顺手将历史遗留的 '... UTC' 字符串重写为标准 '+0000' 规范格式。",
+        tech: "ElementTree 节点修剪 + dateutil UTC 时区校准 + 定期滑动窗口截断 + 文件体积控制。",
+        pills: ["Retention Window", "Timezone Guard", "XML Tree Pruning", "Auto Standardization"],
+        code: `cutoff = time.time() - retention_days * 86400\nfor item in channel.findall("item"):\n    dt = dateutil_parser.parse(pub_date_node.text)\n    if dt.tzinfo is None: dt = dt.replace(tzinfo=timezone.utc)\n    if dt.timestamp() < cutoff: channel.remove(item)`,
+        sample: `{\n  "retention_days": 2,\n  "action": "Cleaned 42 expired items (> 48h)",\n  "file_size": "Reduced from 480KB to 72KB",\n  "status": "XML Valid & Compact"\n}`
+      },
+      {
+        id: "step-10",
+        stepIndex: 10,
+        title: "每日盘前盘后总结",
+        subtitle: "XNYS 交易日历与宏观策略综述",
+        color: 0xfbbf24, // Gold
+        pos: { x: 16, y: -6, z: -18 },
+        tooltip: "美东 08:45 / 21:00 定时触发，基于 XNYS 日历与 Nemotron-120b 生成专业买方宏观综述",
+        logic: "宏观维度的全局综合研报引擎。APScheduler 在美东 08:45（盘前）与 21:00（盘后）触发：1. 交易日判定：调用 exchange_calendars (XNYS) 检查是否为美股开盘日，非交易日静默跳过；2. 幂等性：run_state.json 确保每日每 session 仅执行一次；3. 范围聚合：精准提取前一日收盘至开盘前（或盘中）全部 High 级别核心新闻；4. 旗舰大模型（nvda-nemotron-120b）以买方策略师角色生成结构化大盘综述，写入 news_daily_summary 表并生成专属总结 RSS。",
+        tech: "APScheduler (ET 时区) + exchange_calendars XNYS 交易日判定 + 幂等状态锁 (run_state.json) + nvda-nemotron-120b 买方策略 Prompt + 专属 summary_rss.xml。",
+        pills: ["XNYS Calendar", "Premarket 08:45 ET", "Postmarket 21:00 ET", "Nemotron-120b", "Idempotent State"],
+        code: `if not is_us_trading_day(today): return\nnews_list = [n for n in get_news_by_time_range(start_utc, end_utc) if n['significant'] == 'High']\nprompt = get_daily_summary_prompts(session, content_json)\nsummary_text = llm_client.chat(prompt, model='nvda-nemotron-120b')\nsave_daily_summary(...)`,
+        sample: `【核心驱动】\n1. 通胀与利率路径 → 核心 CPI 超预期强化限制性利率周期 → 利空↓\n2. AI 资本开支激增 → 云计算三巨头扩大财年 CapEx 预算 → 利多↑\n【今日关注标的】\nNVDA → 多 → 业绩会确认机架级供应瓶颈已缓解`
+      }
+    ];
+
+    // =========================================================================
+    // Three.js 场景构建与 3D 渲染核心
+    // =========================================================================
+    let scene, camera, renderer, controls;
+    let nodeObjects = [];
+    let splineCurves = [];
+    let particleSystems = [];
+    let activeStepIndex = 1;
+    let isPlaying = true;
+    let speedFactor = 1.0;
+    let isAutoTouring = false;
+    let tourTween = null;
+
+    const container = document.getElementById("webgl-container");
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+
+    function initScene() {
+      // 1. Scene & Background
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x070a13);
+      scene.fog = new THREE.FogExp2(0x070a13, 0.015);
+
+      // 2. Camera
+      camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.set(0, 42, 58);
+
+      // 3. Renderer
+      renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      container.appendChild(renderer.domElement);
+
+      // 4. OrbitControls
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.06;
+      controls.maxPolarAngle = Math.PI / 2 + 0.05;
+      controls.minDistance = 10;
+      controls.maxDistance = 180;
+      controls.target.set(6, 0, -2);
+
+      // 5. Lights
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+      scene.add(ambientLight);
+
+      const dirLight = new THREE.DirectionalLight(0x38bdf8, 1.2);
+      dirLight.position.set(20, 50, 30);
+      dirLight.castShadow = true;
+      scene.add(dirLight);
+
+      const purplePoint = new THREE.PointLight(0xa855f7, 2, 80);
+      purplePoint.position.set(-10, 20, 10);
+      scene.add(purplePoint);
+
+      const goldPoint = new THREE.PointLight(0xfbbf24, 2.5, 90);
+      goldPoint.position.set(25, 20, -10);
+      scene.add(goldPoint);
+
+      // 6. Ground Cyber Grid
+      const gridHelper = new THREE.GridHelper(140, 70, 0x1e293b, 0x0f172a);
+      gridHelper.position.y = -7;
+      scene.add(gridHelper);
+
+      // Background Starfield Particles
+      createStarfield();
+
+      // Build 3D Nodes & Pipelines
+      createPipelineNodes();
+      createConnectingSplines();
+      createParticleFlows();
+
+      // Events
+      window.addEventListener("resize", onWindowResize);
+      renderer.domElement.addEventListener("pointermove", onPointerMove);
+      renderer.domElement.addEventListener("click", onSceneClick);
+
+      // Build UI Timeline List
+      initTimelineUI();
+    }
+
+    // Starfield Background
+    function createStarfield() {
+      const starGeo = new THREE.BufferGeometry();
+      const count = 1200;
+      const positions = new Float32Array(count * 3);
+      for (let i = 0; i < count * 3; i += 3) {
+        positions[i] = (Math.random() - 0.5) * 250;
+        positions[i + 1] = Math.random() * 80 - 10;
+        positions[i + 2] = (Math.random() - 0.5) * 250;
+      }
+      starGeo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+      const starMat = new THREE.PointsMaterial({ color: 0x64748b, size: 0.8, transparent: true, opacity: 0.5 });
+      const stars = new THREE.Points(starGeo, starMat);
+      scene.add(stars);
+    }
+
+    // Create 3D Stations
+    function createPipelineNodes() {
+      PIPELINE_NODES.forEach((data, index) => {
+        const group = new THREE.Group();
+        group.position.set(data.pos.x, data.pos.y, data.pos.z);
+        group.userData = data;
+
+        // Base Hexagonal Platform
+        const baseGeo = new THREE.CylinderGeometry(3.6, 4.2, 0.6, 6);
+        const baseMat = new THREE.MeshStandardMaterial({
+          color: 0x0f172a,
+          roughness: 0.4,
+          metalness: 0.8
+        });
+        const baseMesh = new THREE.Mesh(baseGeo, baseMat);
+        baseMesh.receiveShadow = true;
+        group.add(baseMesh);
+
+        // Glowing Platform Ring
+        const ringGeo = new THREE.RingGeometry(3.8, 4.2, 6);
+        const ringMat = new THREE.MeshBasicMaterial({
+          color: data.color,
+          side: THREE.DoubleSide
+        });
+        const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+        ringMesh.rotation.x = -Math.PI / 2;
+        ringMesh.position.y = 0.32;
+        group.add(ringMesh);
+
+        // Core Crystal / Polyhedron
+        const coreGeo = new THREE.OctahedronGeometry(1.6, 0);
+        const coreMat = new THREE.MeshStandardMaterial({
+          color: data.color,
+          emissive: data.color,
+          emissiveIntensity: 0.4,
+          roughness: 0.2,
+          metalness: 0.9,
+          wireframe: false
+        });
+        const coreMesh = new THREE.Mesh(coreGeo, coreMat);
+        coreMesh.position.y = 2.4;
+        group.add(coreMesh);
+
+        // Surrounding Orbital Rings
+        const orbitGeo = new THREE.TorusGeometry(2.3, 0.06, 8, 32);
+        const orbitMat = new THREE.MeshBasicMaterial({ color: data.color, transparent: true, opacity: 0.6 });
+        const orbit1 = new THREE.Mesh(orbitGeo, orbitMat);
+        orbit1.position.y = 2.4;
+        orbit1.rotation.x = Math.PI / 3;
+        group.add(orbit1);
+
+        const orbit2 = new THREE.Mesh(orbitGeo, orbitMat);
+        orbit2.position.y = 2.4;
+        orbit2.rotation.y = Math.PI / 3;
+        group.add(orbit2);
+
+        // Light Pillar
+        const pillarGeo = new THREE.CylinderGeometry(0.8, 0.8, 6, 16, 1, true);
+        const pillarMat = new THREE.MeshBasicMaterial({
+          color: data.color,
+          transparent: true,
+          opacity: 0.12,
+          side: THREE.DoubleSide
+        });
+        const pillar = new THREE.Mesh(pillarGeo, pillarMat);
+        pillar.position.y = 3;
+        group.add(pillar);
+
+        // References for animation
+        group.userData.coreMesh = coreMesh;
+        group.userData.orbit1 = orbit1;
+        group.userData.orbit2 = orbit2;
+        group.userData.ringMesh = ringMesh;
+
+        scene.add(group);
+        nodeObjects.push(group);
+      });
+    }
+
+    // Connect Pipeline Splines
+    function createConnectingSplines() {
+      // 1. Main Path: Step 1 -> 2 -> 3 -> 4
+      const p1 = nodeObjects[0].position.clone().add(new THREE.Vector3(0, 2.4, 0));
+      const p2 = nodeObjects[1].position.clone().add(new THREE.Vector3(0, 2.4, 0));
+      const p3 = nodeObjects[2].position.clone().add(new THREE.Vector3(0, 2.4, 0));
+      const p4 = nodeObjects[3].position.clone().add(new THREE.Vector3(0, 2.4, 0));
+
+      // 2. High Path from Step 4 -> 5 -> 6 -> 7
+      const p5 = nodeObjects[4].position.clone().add(new THREE.Vector3(0, 2.4, 0));
+      const p6 = nodeObjects[5].position.clone().add(new THREE.Vector3(0, 2.4, 0));
+      const p7 = nodeObjects[6].position.clone().add(new THREE.Vector3(0, 2.4, 0));
+
+      // 3. Low Bypass Route from Step 4 directly to Step 7 (saves token!)
+      const p4_bypass_mid = new THREE.Vector3(16, -3, 10);
+
+      // 4. Step 7 -> 8 -> 9
+      const p8 = nodeObjects[7].position.clone().add(new THREE.Vector3(0, 2.4, 0));
+      const p9 = nodeObjects[8].position.clone().add(new THREE.Vector3(0, 2.4, 0));
+
+      // 5. Daily Summary Loop: High-news aggregation from Step 3 & 7 to Step 10
+      const p10 = nodeObjects[9].position.clone().add(new THREE.Vector3(0, 2.4, 0));
+
+      // Define Curves
+      const curveMainInflow = new THREE.CatmullRomCurve3([p1, p2, p3, p4]);
+      const curveHighProcess = new THREE.CatmullRomCurve3([p4, p5, p6, p7]);
+      const curveLowBypass = new THREE.CatmullRomCurve3([p4, p4_bypass_mid, p7]);
+      const curveRssOutflow = new THREE.CatmullRomCurve3([p7, p8, p9]);
+      const curveMacroDaily = new THREE.CatmullRomCurve3([p3, new THREE.Vector3(0, 4, -8), p10]);
+
+      splineCurves = [
+        { curve: curveMainInflow, color: 0x38bdf8, type: "main" },
+        { curve: curveHighProcess, color: 0x10b981, type: "high" },
+        { curve: curveLowBypass, color: 0xf59e0b, type: "low_bypass" },
+        { curve: curveRssOutflow, color: 0x14b8a6, type: "rss" },
+        { curve: curveMacroDaily, color: 0xfbbf24, type: "daily" }
+      ];
+
+      // Draw Glowing Tube Meshes for all curves
+      splineCurves.forEach(({ curve, color, type }) => {
+        const tubeGeo = new THREE.TubeGeometry(curve, 70, 0.25, 8, false);
+        const tubeMat = new THREE.MeshBasicMaterial({
+          color: color,
+          transparent: true,
+          opacity: type === "low_bypass" ? 0.35 : 0.6
+        });
+        const tubeMesh = new THREE.Mesh(tubeGeo, tubeMat);
+        scene.add(tubeMesh);
+      });
+    }
+
+    // Animated Particles on Curves
+    function createParticleFlows() {
+      splineCurves.forEach(({ curve, color, type }) => {
+        const particleCount = type === "low_bypass" ? 25 : 45;
+        const geo = new THREE.BufferGeometry();
+        const positions = new Float32Array(particleCount * 3);
+        const offsets = [];
+
+        for (let i = 0; i < particleCount; i++) {
+          offsets.push(i / particleCount);
+          const pt = curve.getPoint(i / particleCount);
+          positions[i * 3] = pt.x;
+          positions[i * 3 + 1] = pt.y;
+          positions[i * 3 + 2] = pt.z;
+        }
+
+        geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+        const mat = new THREE.PointsMaterial({
+          color: color,
+          size: type === "high" || type === "daily" ? 1.6 : 1.1,
+          transparent: true,
+          opacity: 0.95
+        });
+
+        const points = new THREE.Points(geo, mat);
+        scene.add(points);
+
+        particleSystems.push({
+          points,
+          curve,
+          offsets,
+          count: particleCount,
+          type
+        });
+      });
+    }
+
+    // =========================================================================
+    // UI Timeline & Interaction Logic
+    // =========================================================================
+    function initTimelineUI() {
+      const timelineBar = document.getElementById("timeline-bar");
+      PIPELINE_NODES.forEach((node) => {
+        const item = document.createElement("div");
+        item.className = `step-item ${node.stepIndex === 1 ? "active" : ""}`;
+        item.id = `step-item-${node.stepIndex}`;
+        item.innerHTML = `
+          <div class="step-dot" style="${node.stepIndex === 1 ? 'background:' + '#' + node.color.toString(16) : ''}"></div>
+          <span>${String(node.stepIndex).padStart(2, '0')}. ${node.title}</span>
+        `;
+        item.addEventListener("click", () => {
+          focusOnStep(node.stepIndex, true);
+        });
+        timelineBar.appendChild(item);
+      });
+
+      // Controls
+      document.getElementById("btn-toggle-play").addEventListener("click", togglePlay);
+      document.getElementById("speed-slider").addEventListener("input", (e) => {
+        speedFactor = parseFloat(e.target.value);
+        document.getElementById("speed-val").textContent = speedFactor.toFixed(1) + "x";
+      });
+      document.getElementById("btn-prev-step").addEventListener("click", () => {
+        let prev = activeStepIndex - 1;
+        if (prev < 1) prev = PIPELINE_NODES.length;
+        focusOnStep(prev, true);
+      });
+      document.getElementById("btn-next-step").addEventListener("click", () => {
+        let next = activeStepIndex + 1;
+        if (next > PIPELINE_NODES.length) next = 1;
+        focusOnStep(next, true);
+      });
+      document.getElementById("btn-auto-tour").addEventListener("click", toggleAutoTour);
+      document.getElementById("btn-reset-cam").addEventListener("click", resetCamera);
+      document.getElementById("drawer-close-btn").addEventListener("click", closeDrawer);
+    }
+
+    function togglePlay() {
+      isPlaying = !isPlaying;
+      const btn = document.getElementById("btn-toggle-play");
+      const icon = document.getElementById("play-icon");
+      if (isPlaying) {
+        icon.textContent = "⏸";
+        btn.innerHTML = `<span id="play-icon">⏸</span> 暂停粒子流`;
+      } else {
+        icon.textContent = "▶";
+        btn.innerHTML = `<span id="play-icon">▶</span> 继续流动`;
+      }
+    }
+
+    function toggleAutoTour() {
+      isAutoTouring = !isAutoTouring;
+      const btn = document.getElementById("btn-auto-tour");
+      if (isAutoTouring) {
+        btn.classList.add("active");
+        btn.innerHTML = `⏹ 停止巡游`;
+        runTourSequence();
+      } else {
+        btn.classList.remove("active");
+        btn.innerHTML = `🎥 自动巡游`;
+        if (tourTween) tourTween.kill();
+      }
+    }
+
+    function runTourSequence() {
+      if (!isAutoTouring) return;
+      focusOnStep(activeStepIndex, true);
+      tourTween = gsap.delayedCall(5.5 / speedFactor, () => {
+        if (!isAutoTouring) return;
+        activeStepIndex = (activeStepIndex % PIPELINE_NODES.length) + 1;
+        runTourSequence();
+      });
+    }
+
+    function resetCamera() {
+      if (tourTween) tourTween.kill();
+      isAutoTouring = false;
+      document.getElementById("btn-auto-tour").classList.remove("active");
+      document.getElementById("btn-auto-tour").innerHTML = `🎥 自动巡游`;
+
+      gsap.to(camera.position, { x: 0, y: 42, z: 58, duration: 1.5, ease: "power2.inOut" });
+      gsap.to(controls.target, { x: 6, y: 0, z: -2, duration: 1.5, ease: "power2.inOut" });
+      closeDrawer();
+    }
+
+    function focusOnStep(index, openDetails = false) {
+      activeStepIndex = index;
+      const nodeData = PIPELINE_NODES[index - 1];
+      const targetObj = nodeObjects[index - 1];
+
+      // Update Timeline active state
+      document.querySelectorAll(".step-item").forEach((el, idx) => {
+        if (idx === index - 1) {
+          el.classList.add("active");
+          el.querySelector(".step-dot").style.background = "#" + nodeData.color.toString(16);
+        } else {
+          el.classList.remove("active");
+          el.querySelector(".step-dot").style.background = "rgba(255,255,255,0.2)";
+        }
+      });
+
+      // Smooth Camera Animation
+      const targetPos = targetObj.position;
+      const camOffset = new THREE.Vector3(12, 14, 20);
+      const newCamPos = targetPos.clone().add(camOffset);
+
+      gsap.to(camera.position, {
+        x: newCamPos.x,
+        y: newCamPos.y,
+        z: newCamPos.z,
+        duration: 1.3,
+        ease: "power2.out"
+      });
+
+      gsap.to(controls.target, {
+        x: targetPos.x,
+        y: targetPos.y + 2,
+        z: targetPos.z,
+        duration: 1.3,
+        ease: "power2.out"
+      });
+
+      if (openDetails) {
+        showDrawer(nodeData);
+      }
+    }
+
+    function showDrawer(data) {
+      const drawer = document.getElementById("detail-drawer");
+      document.getElementById("drawer-step-tag").textContent = `STEP ${String(data.stepIndex).padStart(2, '0')}`;
+      document.getElementById("drawer-step-tag").style.borderColor = "#" + data.color.toString(16);
+      document.getElementById("drawer-step-tag").style.color = "#" + data.color.toString(16);
+
+      document.getElementById("drawer-title").textContent = `${data.stepIndex}. ${data.title} (${data.subtitle})`;
+      document.getElementById("drawer-logic").textContent = data.logic;
+      document.getElementById("drawer-tech").textContent = data.tech;
+
+      // Pills
+      const pillContainer = document.getElementById("drawer-pills");
+      pillContainer.innerHTML = "";
+      data.pills.forEach((p) => {
+        const span = document.createElement("span");
+        span.className = "pill";
+        span.textContent = p;
+        pillContainer.appendChild(span);
+      });
+
+      document.getElementById("drawer-code").textContent = data.code;
+      document.getElementById("drawer-data").textContent = data.sample;
+
+      drawer.classList.add("open");
+    }
+
+    function closeDrawer() {
+      document.getElementById("detail-drawer").classList.remove("open");
+    }
+
+    // Raycasting & Hover
+    function onPointerMove(e) {
+      mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(nodeObjects, true);
+      const tooltip = document.getElementById("hover-tooltip");
+
+      if (intersects.length > 0) {
+        let parentGroup = intersects[0].object;
+        while (parentGroup.parent && !parentGroup.userData.title) {
+          parentGroup = parentGroup.parent;
+        }
+
+        if (parentGroup.userData.title) {
+          const d = parentGroup.userData;
+          document.getElementById("tt-title").textContent = `${d.stepIndex}. ${d.title}`;
+          document.getElementById("tt-desc").textContent = d.tooltip;
+          tooltip.style.left = e.clientX + "px";
+          tooltip.style.top = e.clientY + "px";
+          tooltip.style.opacity = "1";
+          document.body.style.cursor = "pointer";
+          return;
+        }
+      }
+
+      tooltip.style.opacity = "0";
+      document.body.style.cursor = "default";
+    }
+
+    function onSceneClick(e) {
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(nodeObjects, true);
+      if (intersects.length > 0) {
+        let parentGroup = intersects[0].object;
+        while (parentGroup.parent && !parentGroup.userData.stepIndex) {
+          parentGroup = parentGroup.parent;
+        }
+        if (parentGroup.userData.stepIndex) {
+          focusOnStep(parentGroup.userData.stepIndex, true);
+        }
+      }
+    }
+
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    // =========================================================================
+    // 渲染循环 (Render Loop)
+    // =========================================================================
+    const clock = new THREE.Clock();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const delta = clock.getDelta();
+      const time = clock.getElapsedTime();
+
+      // Controls update
+      controls.update();
+
+      // Station Idle Rotations
+      nodeObjects.forEach((group, idx) => {
+        if (group.userData.coreMesh) {
+          group.userData.coreMesh.rotation.y += 0.8 * delta;
+          group.userData.coreMesh.rotation.x = Math.sin(time * 1.5 + idx) * 0.2;
+          group.userData.coreMesh.position.y = 2.4 + Math.sin(time * 2 + idx) * 0.2;
+        }
+        if (group.userData.orbit1) group.userData.orbit1.rotation.z += 0.5 * delta;
+        if (group.userData.orbit2) group.userData.orbit2.rotation.x += 0.6 * delta;
+      });
+
+      // Flowing Particle Streams
+      if (isPlaying) {
+        particleSystems.forEach((ps) => {
+          const positions = ps.points.geometry.attributes.position.array;
+          for (let i = 0; i < ps.count; i++) {
+            ps.offsets[i] = (ps.offsets[i] + delta * 0.12 * speedFactor) % 1.0;
+            const pt = ps.curve.getPoint(ps.offsets[i]);
+            positions[i * 3] = pt.x;
+            positions[i * 3 + 1] = pt.y;
+            positions[i * 3 + 2] = pt.z;
+          }
+          ps.points.geometry.attributes.position.needsUpdate = true;
+        });
+      }
+
+      renderer.render(scene, camera);
+    }
+
+    // Startup
+    initScene();
+    animate();
+  </script>
+</body>
+</html>
+
